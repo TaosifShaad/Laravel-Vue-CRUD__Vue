@@ -46,6 +46,11 @@
             </tr>
         </tbody>
     </table>
+    <div v-if="loading" class="text-center">
+        <div class="spinner-border text-warning" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -61,20 +66,23 @@ export default {
                 name: '',
                 address: '',
                 mobile: ''
-            }
+            },
+            loading: true
         });
 
         employeeLoad();
 
         function employeeLoad() {
-            const page = "http://127.0.0.1:8000/api/employees";
+            state.loading = true;
+            const page = "http://127.0.0.1/api/employees";
             axios.get(page)
             .then(
                 ({data}) => {
                     console.log(data);
                     state.result = data;
                 }
-            )
+            );
+            state.loading = false;
         }
 
         function save() {
@@ -86,11 +94,15 @@ export default {
         }
 
         function saveData() {
-            axios.post("http://127.0.0.1:8000/api/save", state.employeeObj)
+            axios.post("http://127.0.0.1/api/save", state.employeeObj)
             .then(
                 ({data}) => {
                     alert("saved");
                     employeeLoad();
+                    state.employeeObj.name = '';
+                    state.employeeObj.address = '';
+                    state.employeeObj.mobile = '';
+                    state.employeeObj.id = '';
                 }
             );
         }
@@ -100,7 +112,7 @@ export default {
         }
 
         function update() {
-            const page = "http://127.0.0.1:8000/api/update/" + state.employeeObj.id;
+            const page = "http://127.0.0.1/api/update/" + state.employeeObj.id;
             axios.put(page, state.employeeObj)
             .then(
                 ({data})=>{
@@ -115,7 +127,7 @@ export default {
         }
 
         function deleteData(employeeObj) {
-            const page = "http://127.0.0.1:8000/api/delete/" + employeeObj.id;
+            const page = "http://127.0.0.1/api/delete/" + employeeObj.id;
             axios.delete(page)
             .then(
                 ({data})=>{
@@ -134,6 +146,39 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+.table {
+    /* font-family: 'Fira Sans Extra Condensed', sans-serif; */
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    max-width: 1200px;
+    margin: auto;
+    margin-block-start: 22px;
+    border: 1px solid white;
+    margin-block-end: 30px;
+}
+form {
+    font-family: 'Fira Sans Extra Condensed', sans-serif;
+    /* font-family: Avenir, Helvetica, Arial, sans-serif; */
+    font-size: 17px;
+    max-width: 1000px;
+    margin: auto;
+    margin-bottom: 100px;
+    margin-top: 32px;
+    border: 1px solid;
+    padding: 56px;
+    border-radius: 46px;
+    padding-bottom: 19px;
+    border-radius: 50px;
+}
+.btn-dark {
+    margin-inline-end: 16px;
+}
+button {
+    cursor: pointer;
+}
 
+/* button:hover { */
+    /* letter-spacing: 0.25em; */
+/* } */
 </style>
