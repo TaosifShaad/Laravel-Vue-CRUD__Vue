@@ -1,54 +1,60 @@
 <template>
-<form @submit.prevent="save">
-    <div class="mb-3 row">
-        <label for="staticEmail" class="col-sm-2 col-form-label">Employee Name</label>
-        <div class="col-sm-10">
-            <input v-model="employeeObj.name" type="text" class="form-control" placeholder="Enter Name">
+    <nav>
+        <router-link to="/register">Register</router-link> | 
+        <router-link to="/login">Login</router-link>
+    </nav>
+    <div class="totalContent">
+        <form @submit.prevent="save">
+            <div class="mb-3 row">
+                <label for="staticEmail" class="col-sm-2 col-form-label">Employee Name</label>
+                <div class="col-sm-10">
+                    <input v-model="employeeObj.name" type="text" class="form-control" placeholder="Enter Name">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="staticEmail" class="col-sm-2 col-form-label">Employee Address</label>
+                <div class="col-sm-10">
+                    <input v-model="employeeObj.address" type="text" class="form-control" placeholder="Enter Address">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="staticEmail" class="col-sm-2 col-form-label">Employee Contact</label>
+                <div class="col-sm-10">
+                    <input v-model="employeeObj.mobile" type="text" class="form-control" placeholder="Enter Contact No.">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+        <div>
+            <h2>Employee View</h2>
         </div>
-    </div>
-    <div class="mb-3 row">
-        <label for="staticEmail" class="col-sm-2 col-form-label">Employee Address</label>
-        <div class="col-sm-10">
-            <input v-model="employeeObj.address" type="text" class="form-control" placeholder="Enter Address">
-        </div>
-    </div>
-    <div class="mb-3 row">
-        <label for="staticEmail" class="col-sm-2 col-form-label">Employee Contact</label>
-        <div class="col-sm-10">
-            <input v-model="employeeObj.mobile" type="text" class="form-control" placeholder="Enter Contact No.">
-        </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Save</button>
-</form>
-    <div>
-        <h2>Employee View</h2>
-    </div>
-    <table class="table table-secondary">
-        <thead>
-            <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Employee Name</th>
-            <th scope="col">Address</th>
-            <th scope="col">Mobile</th>
-            <th scope="col">Option</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="employeeObj in result" :key="employeeObj.id">
-            <th scope="row">{{ employeeObj.id }}</th>
-            <td>{{ employeeObj.name }}</td>
-            <td>{{ employeeObj.address }}</td>
-            <td>{{ employeeObj.mobile }}</td>
-            <td>
-                <button @click="edit(employeeObj)" type="button" class="btn btn-dark">edit</button>
-                <button @click="deleteData(employeeObj)" type="button" class="btn btn-danger">delete</button>
-            </td>
-            </tr>
-        </tbody>
-    </table>
-    <div v-if="loading" class="text-center">
-        <div class="spinner-border text-warning" role="status">
-            <span class="visually-hidden">Loading...</span>
+        <table class="table table-secondary">
+            <thead>
+                <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Employee Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">Mobile</th>
+                <th scope="col">Option</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="employeeObj in result" :key="employeeObj.id">
+                <th scope="row">{{ employeeObj.id }}</th>
+                <td>{{ employeeObj.name }}</td>
+                <td>{{ employeeObj.address }}</td>
+                <td>{{ employeeObj.mobile }}</td>
+                <td>
+                    <button @click="edit(employeeObj)" type="button" class="btn btn-dark">edit</button>
+                    <button @click="deleteData(employeeObj)" type="button" class="btn btn-danger">delete</button>
+                </td>
+                </tr>
+            </tbody>
+        </table>
+        <div v-if="loading" class="text-center">
+            <div class="spinner-border text-warning" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
         </div>
     </div>
 </template>
@@ -61,6 +67,12 @@ export default {
     setup () {
         const state = reactive({
             result: {},
+            registerObj: {
+                name: '',
+                email: '',
+                password: '',
+                c_password: ''
+            },
             employeeObj: {
                 id: '',
                 name: '',
@@ -78,7 +90,7 @@ export default {
             axios.get(page)
             .then(
                 ({data}) => {
-                    console.log(data);
+                    // console.log(data);
                     state.result = data;
                 }
             );
@@ -86,11 +98,13 @@ export default {
         }
 
         function save() {
+            state.loading = true;
             if (state.employeeObj.id == '') {
                 saveData();
             } else {
                 update();
             }
+            state.loading = false;
         }
 
         function saveData() {
@@ -135,12 +149,23 @@ export default {
                 }
             )
         }
+
+        function register() {
+            const page = "http://127.0.0.1/api/register";
+            axios.post(page, state.registerObj)
+            .then(
+                ({data}) => {
+                    console.log(data);
+                }
+            );
+        }
     
         return {
             ...toRefs(state),
             save,
             edit,
-            deleteData
+            deleteData,
+            register
         }
     }
 }
