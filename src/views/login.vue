@@ -7,10 +7,10 @@
         <hr>
 
         <label for="email"><b>Email</b></label>
-        <input v-model="loginObj.email" type="text" placeholder="Enter Email" name="email" required>
+        <input v-model="email" type="text" placeholder="Enter Email" name="email" required>
 
         <label for="psw"><b>Password</b></label>
-        <input v-model="loginObj.password" type="password" placeholder="Enter Password" name="psw" required>
+        <input v-model="password" type="password" placeholder="Enter Password" name="psw" required>
         
         <label>
           <input type="checkbox" checked="true" name="remember" style="margin-bottom:15px"> Remember me
@@ -26,28 +26,30 @@
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue'
-import axios from 'axios';    
+import { reactive, toRefs } from 'vue';
+import router from "@/router"
+import axios from '@/services/axios';  
+import storage from '@/services/storage';
 
 export default {
     setup () {
         const state = reactive({
-            loginObj: {
-                email: '',
-                password: '',
-            }
+          email: '',
+          password: '',
         });
 
-        function login() {
-            const page = "http://127.0.0.1/api/login";
-            axios.post(page, state.loginObj)
-            .then(
-                ({data}) => {
-                    console.log(data);
-                }
-            );
+        async function login() {
+          const {data: response} = await axios.post("/login", {...state})
+          .catch(error => alert(error.message))
+          
+          if (response.success) {
+            storage.setItem('token', response.data.token)
+            storage.setItem('user', response.data.user)
+            return router.push({path: '/empview'});
+          }
+          alert(response.message);
         }
-    
+        
         return {
             ...toRefs(state),
             login
@@ -68,6 +70,10 @@ input[type=text], input[type=password] {
   display: inline-block;
   border: none;
   background: #f1f1f1;
+}
+
+.signupbtn {
+  background-color: #1999ff;
 }
 
 input[type=text]:focus, input[type=password]:focus {

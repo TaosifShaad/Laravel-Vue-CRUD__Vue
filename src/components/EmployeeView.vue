@@ -1,9 +1,11 @@
 <template>
     <nav>
-        <router-link to="/register">Register</router-link> | 
-        <router-link to="/login">Login</router-link>
+        <!-- <router-link to="/register">Register</router-link> | 
+        <router-link to="/login">Login</router-link> -->
+        <!-- <loginComponent></loginComponent> -->
     </nav>
     <div class="totalContent">
+        <button @click="logout">logout</button>
         <form @submit.prevent="save">
             <div class="mb-3 row">
                 <label for="staticEmail" class="col-sm-2 col-form-label">Employee Name</label>
@@ -61,17 +63,21 @@
 
 <script>
 import { reactive, toRefs } from 'vue';
-import axios from 'axios';
+import axios from '@/services/axios';
+import loginComponent from '@/views/login.vue'
+import storage from '@/services/storage';
+import router from "@/router";
 
 export default {
+    components: {
+        loginComponent
+    },
     setup () {
         const state = reactive({
             result: {},
-            registerObj: {
-                name: '',
+            loginObj: {
                 email: '',
                 password: '',
-                c_password: ''
             },
             employeeObj: {
                 id: '',
@@ -86,7 +92,7 @@ export default {
 
         function employeeLoad() {
             state.loading = true;
-            const page = "http://127.0.0.1/api/employees";
+            const page = "/employees";
             axios.get(page)
             .then(
                 ({data}) => {
@@ -108,7 +114,7 @@ export default {
         }
 
         function saveData() {
-            axios.post("http://127.0.0.1/api/save", state.employeeObj)
+            axios.post("/save", state.employeeObj)
             .then(
                 ({data}) => {
                     alert("saved");
@@ -126,7 +132,7 @@ export default {
         }
 
         function update() {
-            const page = "http://127.0.0.1/api/update/" + state.employeeObj.id;
+            const page = "/update/" + state.employeeObj.id;
             axios.put(page, state.employeeObj)
             .then(
                 ({data})=>{
@@ -141,7 +147,7 @@ export default {
         }
 
         function deleteData(employeeObj) {
-            const page = "http://127.0.0.1/api/delete/" + employeeObj.id;
+            const page = "/delete/" + employeeObj.id;
             axios.delete(page)
             .then(
                 ({data})=>{
@@ -150,22 +156,28 @@ export default {
             )
         }
 
-        function register() {
-            const page = "http://127.0.0.1/api/register";
-            axios.post(page, state.registerObj)
-            .then(
-                ({data}) => {
-                    console.log(data);
-                }
-            );
+        function logout() {
+            storage.clearItem('token');
+            router.push({path: '/empview'});
         }
+
+        // function register() {
+        //     const page = "http://127.0.0.1/api/register";
+        //     axios.post(page, state.registerObj)
+        //     .then(
+        //         ({data}) => {
+        //             console.log(data);
+        //         }
+        //     );
+        // }
     
         return {
             ...toRefs(state),
             save,
             edit,
             deleteData,
-            register
+            logout
+            // register
         }
     }
 }

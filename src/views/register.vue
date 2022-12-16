@@ -106,6 +106,9 @@ button:hover {
   opacity:1;
 }
 
+.signupbtn {
+    background-color: #1999ff;
+}
 /* Extra styles for the cancel button */
 .cancelbtn {
   padding: 14px 20px;
