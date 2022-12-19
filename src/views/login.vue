@@ -40,7 +40,10 @@ export default {
 
         async function login() {
           const {data: response} = await axios.post("/login", {...state})
-          .catch(error => alert(error.message))
+          .catch(error => {
+            console.log(error, " Login Error ")
+            alert(error.message)
+          })
           
           if (response.success) {
             storage.setItem('token', response.data.token);

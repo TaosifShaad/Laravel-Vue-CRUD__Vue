@@ -21,6 +21,19 @@ axiosInstance.interceptors.request.use(function (config) {
     if(token && !config.headers.Authorization) {
         config.headers['Authorization'] = "Bearer " + token
     }
+
+    let outdatedToken = config.headers.Authorization;
+
+    if(!outdatedToken) {
+        return config;
+    }
+
+    outdatedToken = outdatedToken.split(" ")
+
+    if(token && outdatedToken[1] !== token) {
+        config.headers['Authorization'] = "Bearer " + token
+    }
+
    
     return config;
 

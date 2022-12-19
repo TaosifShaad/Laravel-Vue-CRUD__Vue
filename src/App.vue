@@ -1,16 +1,17 @@
 <template>
   <nav>
     <router-link to="/">Home</router-link> |
-    <router-link v-if="loggedIn" to="/register">Register</router-link> |
-    <router-link v-if="loggedIn" to="/login">Login</router-link> |
-    <router-link to="/empview">Employees</router-link>
+    <router-link v-if="!bool" to="/register">Register</router-link> |
+    <router-link v-if="!bool" to="/login">Login</router-link> |
+    <router-link v-if="bool" to="/empview">Employees</router-link>
   </nav>
   <router-view/>
 </template>
 
 <script>
-  import { reactive, toRefs } from 'vue'
-  import storage from '@/services/storage'
+  import { reactive, toRefs } from 'vue';
+  import storage from '@/services/storage';
+  import { useComposition } from '@/components/EmployeeView.vue';
   
   export default {
     setup () {
@@ -18,10 +19,15 @@
         loggedIn: true,
       })
 
-      check();
+      // const { bool } = useComposition();
+      // console.log(bool);
+      const { bool } = useComposition();
+      console.log(bool);
 
+      // check();
 
       function check() {
+        console.log('-----');
         if (storage.getItem('token')) {
           state.loggedIn = false;
         } else {
@@ -31,6 +37,9 @@
     
       return {
         ...toRefs(state),
+        check,
+        bool
+        // bool
       }
     }
   }

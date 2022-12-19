@@ -8,21 +8,21 @@
         <button @click="logout">logout</button>
         <form @submit.prevent="save">
             <div class="mb-3 row">
-                <label for="staticEmail" class="col-sm-2 col-form-label">Employee Name</label>
+                <label for="name" class="col-sm-2 col-form-label">Employee Name</label>
                 <div class="col-sm-10">
-                    <input v-model="employeeObj.name" type="text" class="form-control" placeholder="Enter Name">
+                    <input id="name" v-model="employeeObj.name" type="text" class="form-control" placeholder="Enter Name">
                 </div>
             </div>
             <div class="mb-3 row">
-                <label for="staticEmail" class="col-sm-2 col-form-label">Employee Address</label>
+                <label for="street-address" class="col-sm-2 col-form-label">Employee Address</label>
                 <div class="col-sm-10">
-                    <input v-model="employeeObj.address" type="text" class="form-control" placeholder="Enter Address">
+                    <input id="street-address" v-model="employeeObj.address" type="text" class="form-control" placeholder="Enter Address">
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="staticEmail" class="col-sm-2 col-form-label">Employee Contact</label>
                 <div class="col-sm-10">
-                    <input v-model="employeeObj.mobile" type="text" class="form-control" placeholder="Enter Contact No.">
+                    <input v-model="employeeObj.mobile" type="tel" class="form-control" placeholder="Enter Contact No.">
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Save</button>
@@ -64,14 +64,10 @@
 <script>
 import { reactive, toRefs } from 'vue';
 import axios from '@/services/axios';
-import loginComponent from '@/views/login.vue'
 import storage from '@/services/storage';
 import router from "@/router";
 
 export default {
-    components: {
-        loginComponent
-    },
     setup () {
         const state = reactive({
             result: {},
@@ -85,7 +81,7 @@ export default {
                 address: '',
                 mobile: ''
             },
-            loading: true
+            loading: true,
         });
 
         employeeLoad();
@@ -188,6 +184,14 @@ export default {
             logout
             // register
         }
+    }
+}
+export const useComposition = function() {
+    const state = reactive({
+        bool: storage.getItem('user')? true : false
+    })
+    return {
+        ...toRefs(state),
     }
 }
 </script>
