@@ -9,14 +9,14 @@ const axiosInstance = axios.create({
     }
 })
 
-const token = localStorage.getItem('user-token');
+const token = localStorage.getItem('token');
 
 if(token) {
     axiosInstance.defaults.headers.common['Authorization'] = "Bearer " + token;
 }
 
 axiosInstance.interceptors.request.use(function (config) {
-    const token = localStorage.getItem('user-token')
+    const token = localStorage.getItem('token')
     
     if(token && !config.headers.Authorization) {
         config.headers['Authorization'] = "Bearer " + token
@@ -27,9 +27,9 @@ axiosInstance.interceptors.request.use(function (config) {
   }, error => Promise.reject(error));
 
 axiosInstance.interceptors.response.use( response => response, function (error) {
-    const token = localStorage.getItem('user-token');
+    const token = localStorage.getItem('token');
     if(error.response.status == 401 && !token) {
-        localStorage.removeItem('user-info')
+        localStorage.removeItem('user')
         window.location.href = '/'
     }
    

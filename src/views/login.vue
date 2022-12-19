@@ -6,10 +6,10 @@
         <p>Sign in to your account.</p>
         <hr>
 
-        <label for="email"><b>Email</b></label>
+        <!-- <label for="email"><b>Email</b></label> -->
         <input v-model="email" type="text" placeholder="Enter Email" name="email" required>
 
-        <label for="psw"><b>Password</b></label>
+        <!-- <label for="psw"><b>Password</b></label> -->
         <input v-model="password" type="password" placeholder="Enter Password" name="psw" required>
         
         <label>
@@ -43,8 +43,8 @@ export default {
           .catch(error => alert(error.message))
           
           if (response.success) {
-            storage.setItem('token', response.data.token)
-            storage.setItem('user', response.data.user)
+            storage.setItem('token', response.data.token);
+            storage.setItem('user', response.data.user);
             return router.push({path: '/empview'});
           }
           alert(response.message);

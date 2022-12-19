@@ -6,16 +6,16 @@
                 <p>Please fill in this form to create an account.</p>
                 <hr>
 
-                <label for="name"><b>Name</b></label>
+                <!-- <label for="name"><b>Name</b></label> -->
                 <input v-model="registerObj.name" type="text" placeholder="Enter Name" name="name" required>
 
-                <label for="email"><b>Email</b></label>
+                <!-- <label for="email"><b>Email</b></label> -->
                 <input v-model="registerObj.email" type="text" placeholder="Enter Email" name="email" required>
 
-                <label for="psw"><b>Password</b></label>
+                <!-- <label for="psw"><b>Password</b></label> -->
                 <input v-model="registerObj.password" type="password" placeholder="Enter Password" name="psw" required>
 
-                <label for="psw-repeat"><b>Repeat Password</b></label>
+                <!-- <label for="psw-repeat"><b>Repeat Password</b></label> -->
                 <input v-model="registerObj.c_password" type="password" placeholder="Repeat Password" name="psw-repeat" required>
                 
                 <label>

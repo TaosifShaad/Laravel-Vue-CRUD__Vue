@@ -156,9 +156,18 @@ export default {
             )
         }
 
-        function logout() {
-            storage.clearItem('token');
-            router.push({path: '/empview'});
+        async function logout() {
+            const {data: response} = await axios.post("/logout")
+            .catch(error => alert(error.message))
+
+            // console.log(response.success);
+            
+            if (response.success) {
+                storage.clearItem('token');
+                storage.clearItem('user');
+                return router.push({path: '/login'});
+            }
+            alert(response.message);
         }
 
         // function register() {
