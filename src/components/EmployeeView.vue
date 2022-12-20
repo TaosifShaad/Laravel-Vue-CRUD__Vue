@@ -92,15 +92,17 @@ export default {
 
         function employeeLoad() {
             state.loading = true;
-            const page = "/employees";
-            axios.get(page)
+            axios.get('/employees')
             .then(
                 ({data}) => {
-                    // console.log(data);
                     state.result = data;
                     state.loading = false;
                 }
-            );
+            ).catch(error => {
+                toaster.error(error.message, {
+                    position: 'top-right'
+                })
+            });
         }
 
         function save() {
@@ -128,7 +130,7 @@ export default {
                 }
             ).catch(error => {
                 toaster.error(error.message, {
-                    position: 'top-right',
+                    position: 'top-right'
                 })
             });
         }
@@ -147,13 +149,13 @@ export default {
                     state.employeeObj.mobile = '';
                     state.employeeObj.id = '';
                     toaster.info('Data Updated Successfully!', {
-                        position: 'top-right',
+                        position: 'top-right'
                     })
                     employeeLoad();
                 }
             ).catch(error => {
                 toaster.error(error.message, {
-                    position: 'top-right',
+                    position: 'top-right'
                 })
             });
         }
@@ -164,13 +166,13 @@ export default {
             .then(
                 ({data})=>{
                     toaster.error('Data Deleted Successfully!', {
-                        position: 'top-right',
+                        position: 'top-right'
                     })
                     employeeLoad();
                 }
             ).catch(error => {
                 toaster.error(error.message, {
-                    position: 'top-right',
+                    position: 'top-right'
                 })
             });
         }
@@ -180,7 +182,7 @@ export default {
             const {data: response} = await axios.post("/logout")
             .catch(error => {
                 toaster.error(error.message, {
-                    position: 'top-right',
+                    position: 'top-right'
                 })
             })
 
@@ -196,7 +198,7 @@ export default {
             }
             // alert(response.message);
             toaster.error(response.message, {
-                position: 'top-right',
+                position: 'top-right'
             })
         }
 

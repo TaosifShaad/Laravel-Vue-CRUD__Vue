@@ -1,23 +1,37 @@
 <template>
+  <navbar></navbar>
   <nav>
     <router-link to="/">Home</router-link> |
-    <router-link v-if="!bool" to="/register">Register</router-link> |
-    <router-link v-if="!bool" to="/login">Login</router-link> |
-    <router-link v-if="bool" to="/empview">Employees</router-link>
+    <!-- <router-link v-if="!bool" to="/register">Register</router-link> | -->
+    <router-link v-if="loggedIn" to="/register">Register</router-link> |
+    <!-- <router-link v-if="!bool" to="/login">Login</router-link> | -->
+    <router-link v-if="loggedIn" to="/login">Login</router-link> |
+    <!-- <router-link v-if="bool" to="/empview">Employees</router-link> -->
+    <router-link v-if="!loggedIn" to="/empview">Employees</router-link>
   </nav>
   <router-view/>
+  <footer-c></footer-c>
 </template>
 
 <script>
   import { reactive, toRefs } from 'vue';
   import storage from '@/services/storage';
   import { useComposition } from '@/components/EmployeeView.vue';
+  import footerC from '@/components/footerC.vue';
+  import navbar from '@/components/navbar.vue'
   
+  // location.reload();
   export default {
+    components: {
+      navbar,
+      footerC
+    },
     setup () {
       const state = reactive({
         loggedIn: true,
       })
+
+      check();
 
       // const { bool } = useComposition();
       // console.log(bool);

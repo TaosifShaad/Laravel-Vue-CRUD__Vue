@@ -142,7 +142,7 @@ button:hover {
 }
 
 form {
-    height: 98vh !important;
+    height: 64vh !important;
 }
 
 /* Clear floats */
