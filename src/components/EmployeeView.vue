@@ -30,6 +30,7 @@
         <div>
             <h2>Employee View</h2>
         </div>
+        
         <table class="table table-secondary">
             <thead>
                 <tr>
@@ -66,6 +67,7 @@ import { reactive, toRefs } from 'vue';
 import axios from '@/services/axios';
 import storage from '@/services/storage';
 import router from "@/router";
+import { createToaster } from "@meforma/vue-toaster";
 
 export default {
     setup () {
@@ -84,6 +86,8 @@ export default {
             loading: true,
         });
 
+        const toaster = createToaster({ /* options */ });
+
         employeeLoad();
 
         function employeeLoad() {
@@ -94,9 +98,9 @@ export default {
                 ({data}) => {
                     // console.log(data);
                     state.result = data;
+                    state.loading = false;
                 }
             );
-            state.loading = false;
         }
 
         function save() {
@@ -113,14 +117,20 @@ export default {
             axios.post("/save", state.employeeObj)
             .then(
                 ({data}) => {
-                    alert("saved");
+                    toaster.success('Data Added Successfully!', {
+                        position: 'top-right',
+                    })
                     employeeLoad();
                     state.employeeObj.name = '';
                     state.employeeObj.address = '';
                     state.employeeObj.mobile = '';
                     state.employeeObj.id = '';
                 }
-            );
+            ).catch(error => {
+                toaster.error(error.message, {
+                    position: 'top-right',
+                })
+            });
         }
 
         function edit(employeeObj) {
@@ -136,10 +146,16 @@ export default {
                     state.employeeObj.address = '';
                     state.employeeObj.mobile = '';
                     state.employeeObj.id = '';
-                    alert('updated!');
+                    toaster.info('Data Updated Successfully!', {
+                        position: 'top-right',
+                    })
                     employeeLoad();
                 }
-            )
+            ).catch(error => {
+                toaster.error(error.message, {
+                    position: 'top-right',
+                })
+            });
         }
 
         function deleteData(employeeObj) {
@@ -147,23 +163,41 @@ export default {
             axios.delete(page)
             .then(
                 ({data})=>{
+                    toaster.error('Data Deleted Successfully!', {
+                        position: 'top-right',
+                    })
                     employeeLoad();
                 }
-            )
+            ).catch(error => {
+                toaster.error(error.message, {
+                    position: 'top-right',
+                })
+            });
         }
 
         async function logout() {
+            // toastr.info('Are you the 6 fingered man?')
             const {data: response} = await axios.post("/logout")
-            .catch(error => alert(error.message))
+            .catch(error => {
+                toaster.error(error.message, {
+                    position: 'top-right',
+                })
+            })
 
             // console.log(response.success);
             
             if (response.success) {
                 storage.clearItem('token');
                 storage.clearItem('user');
+                toaster.success('Logged Out Successfully!', {
+                    position: 'top-right'
+                });
                 return router.push({path: '/login'});
             }
-            alert(response.message);
+            // alert(response.message);
+            toaster.error(response.message, {
+                position: 'top-right',
+            })
         }
 
         // function register() {

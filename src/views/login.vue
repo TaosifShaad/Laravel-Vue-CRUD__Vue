@@ -30,6 +30,7 @@ import { reactive, toRefs } from 'vue';
 import router from "@/router"
 import axios from '@/services/axios';  
 import storage from '@/services/storage';
+import { createToaster } from "@meforma/vue-toaster";
 
 export default {
     setup () {
@@ -38,19 +39,31 @@ export default {
           password: '',
         });
 
+        const toaster = createToaster({ /* options */ });
+
         async function login() {
           const {data: response} = await axios.post("/login", {...state})
           .catch(error => {
-            console.log(error, " Login Error ")
-            alert(error.message)
+            // alert(error.message)
+            toaster.error(error.message, {
+              position: 'top-right',
+              duration: false
+            })
           })
           
           if (response.success) {
             storage.setItem('token', response.data.token);
             storage.setItem('user', response.data.user);
+            toaster.success('Welcome ' + storage.getItem('user').name, {
+              position: 'top-right'
+            });
             return router.push({path: '/empview'});
           }
-          alert(response.message);
+          // alert(response.message);
+          toaster.error(response.message, {
+              position: 'top-right',
+              duration: false
+          })
         }
         
         return {
