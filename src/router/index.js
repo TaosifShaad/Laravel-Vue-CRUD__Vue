@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue';
 import login from '../views/login.vue';
 import register from '../views/register.vue';
 import storage from '@/services/storage';
+import { createToaster } from "@meforma/vue-toaster";
+
 
 const routes = [
   {
@@ -38,11 +40,18 @@ const router = createRouter({
   routes
 });
 
+const toaster = createToaster({ /* options */ });
+
+
 router.beforeEach((to, from, next) => {
   if (to.meta.hasAuth) {
     if (storage.getItem('token')) {
       next()
     } else {
+      toaster.error('log in first', {
+        position: 'bottom-right',
+        duration: false
+      })
       next('/login');
     }
   } else {

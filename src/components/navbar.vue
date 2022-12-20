@@ -13,14 +13,14 @@
                         <button class="btn btn-outline-success me-4" type="submit">Search</button>
                     </form>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" @click="checkUser">
                             Dropdown
                         </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item">{{user}}</a></li>
+                        <li><a class="dropdown-item">Billing</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a v-if="log" class="dropdown-item" @click="logout">logout</a></li>
                     </ul>
                     </li>
                     <li class="nav-item">
@@ -44,14 +44,52 @@
 
 <script>
 import { reactive, toRefs } from 'vue'
+import axios from '@/services/axios';
+import storage from '@/services/storage';
+import router from "@/router";
+import { createToaster } from "@meforma/vue-toaster";
 
 export default {
     setup () {
         const state = reactive({
+            user: storage.getItem('user')? storage.getItem('user').name : 'No user',
+            log: false,
+            newVar: 'No User'
         })
+
+        function checkUser() {
+            state.user = storage.getItem('user')? storage.getItem('user').name : 'No user';
+            state.log = storage.getItem('user')? true : false
+        }
+
+        const toaster = createToaster({ /* options */ });
+
+        async function logout() {
+            const {data: response} = await axios.post("/logout")
+            .catch(error => {
+                toaster.error(error.message, {
+                    position: 'top-right'
+                })
+            })
+            
+            if (response.success) {
+                storage.clearItem('token');
+                storage.clearItem('user');
+                toaster.success('Logged Out Successfully!', {
+                    position: 'top-right'
+                });
+                return router.push({path: '/login'});
+            }
+            // alert(response.message);
+            toaster.error(response.message, {
+                position: 'top-right'
+            })
+        }
     
         return {
             ...toRefs(state),
+            logout,
+            checkUser,
         }
     }
 }
@@ -64,6 +102,7 @@ export default {
     }
     a {
         text-decoration: auto;
+        cursor: pointer;
     }
     input {
         /* margin-right: 200px; */

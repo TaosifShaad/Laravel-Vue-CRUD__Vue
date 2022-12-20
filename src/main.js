@@ -3,5 +3,5 @@ import App from './App.vue'
 import router from './router'
 
 const app = createApp(App).use(router);
-app.config.globalProperties.loggedIn = false;
+app.config.globalProperties.globalVar = false;
 app.mount('#app');
