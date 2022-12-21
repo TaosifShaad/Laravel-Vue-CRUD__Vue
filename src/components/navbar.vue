@@ -12,17 +12,7 @@
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success me-4" type="submit">Search</button>
                     </form>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" @click="checkUser">
-                            {{user}}
-                        </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item">{{user}}</a></li>
-                        <li><a class="dropdown-item">Billing</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a v-if="!log" class="dropdown-item" @click="logout">logout</a></li>
-                    </ul>
-                    </li>
+                    
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page"><router-link to="/">Home</router-link></a>
                     </li>
@@ -34,6 +24,17 @@
                     </li>
                     <li v-if="!log" class="nav-item">
                         <a class="nav-link"><router-link to="/empview">Employees</router-link></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" @click="checkUser">
+                            {{user}}
+                        </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item">{{profile}}</a></li>
+                        <li><a class="dropdown-item">Billing</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a v-if="!log" class="dropdown-item" @click="logout">logout</a></li>
+                    </ul>
                     </li>
                 </ul>
                 </div>
@@ -55,6 +56,7 @@ export default {
         const state = reactive({
             user: storage.getItem('user')? storage.getItem('user').name : 'No user',
             log: false,
+            profile: ''
         })
         
         const route = useRoute()
@@ -62,6 +64,7 @@ export default {
         function checkUser() {
             state.user = storage.getItem('user')? storage.getItem('user').name : 'No user';
             state.log = storage.getItem('user')? false : true;
+            state.profile = storage.getItem('user')? storage.getItem('user').name + "'s profile " : 'No user'
             console.log('checking')
         }
 
@@ -127,5 +130,8 @@ export default {
         /* padding: 0 20px; */
         padding-left: 20px;
         padding-right: 30px;
+    }
+    .dropdown-menu {
+        left: -63px;
     }
 </style>
