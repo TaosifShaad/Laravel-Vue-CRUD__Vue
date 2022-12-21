@@ -68,6 +68,7 @@ import axios from '@/services/axios';
 import storage from '@/services/storage';
 import router from "@/router";
 import { createToaster } from "@meforma/vue-toaster";
+// import alertify from '@/alertifyjs/alertify';
 
 export default {
     setup () {
@@ -99,9 +100,10 @@ export default {
                     state.loading = false;
                 }
             ).catch(error => {
-                toaster.error(error.message, {
-                    position: 'top-right'
-                })
+                // toaster.error(error.message, {
+                //     position: 'top-right'
+                // })
+                alertify.alert(error.message);
             });
         }
 
