@@ -5,7 +5,7 @@
         <!-- <loginComponent></loginComponent> -->
     </nav>
     <div class="totalContent">
-        <button @click="logout">logout</button>
+        <!-- <button @click="logout">logout</button> -->
         <form @submit.prevent="save">
             <div class="mb-3 row">
                 <label for="name" class="col-sm-2 col-form-label">Employee Name</label>

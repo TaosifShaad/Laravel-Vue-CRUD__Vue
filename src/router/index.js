@@ -43,14 +43,13 @@ const router = createRouter({
 const toaster = createToaster({ /* options */ });
 
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => { 
   if (to.meta.hasAuth) {
     if (storage.getItem('token')) {
       next()
     } else {
       toaster.error('log in first', {
         position: 'bottom-right',
-        duration: false
       })
       next('/login');
     }

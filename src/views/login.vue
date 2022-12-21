@@ -7,17 +7,17 @@
         <hr>
 
         <!-- <label for="email"><b>Email</b></label> -->
-        <input v-model="email" type="text" placeholder="Enter Email" name="email" required>
+        <input v-model="postObj.email" type="text" placeholder="Enter Email" name="email" required>
 
         <!-- <label for="psw"><b>Password</b></label> -->
-        <input v-model="password" type="password" placeholder="Enter Password" name="psw" required>
+        <input v-model="postObj.password" type="password" placeholder="Enter Password" name="psw" required>
         
         <label>
           <input type="checkbox" checked="true" name="remember" style="margin-bottom:15px"> Remember me
         </label>
         
         <div class="clearfix">
-          <button type="button" class="cancelbtn">Cancel</button>
+          <button type="button" class="cancelbtn">Cancel {{ $route.path }}</button>
           <button type="submit" class="signupbtn">Sign in</button>
         </div>
       </div>
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue';
+import { reactive, toRefs, watchEffect } from 'vue';
 import router from "@/router"
 import axios from '@/services/axios';  
 import storage from '@/services/storage';
@@ -35,19 +35,21 @@ import { createToaster } from "@meforma/vue-toaster";
 export default {
     setup () {
         const state = reactive({
-          email: '',
-          password: '',
+          postObj: {
+            email: '',
+            password: '',
+          },
+          userData: ''
         });
 
         const toaster = createToaster({ /* options */ });
 
         async function login() {
-          const {data: response} = await axios.post("/login", {...state})
+          const {data: response} = await axios.post("/login", state.postObj)
           .catch(error => {
             // alert(error.message)
             toaster.error(error.message, {
               position: 'top-right',
-              duration: false
             })
           })
           
@@ -62,7 +64,6 @@ export default {
           // alert(response.message);
           toaster.error(response.message, {
               position: 'top-right',
-              duration: false
           })
         }
         

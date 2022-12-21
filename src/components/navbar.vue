@@ -14,25 +14,25 @@
                     </form>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" @click="checkUser">
-                            Dropdown
+                            {{user}}
                         </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item">{{user}}</a></li>
                         <li><a class="dropdown-item">Billing</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a v-if="log" class="dropdown-item" @click="logout">logout</a></li>
+                        <li><a v-if="!log" class="dropdown-item" @click="logout">logout</a></li>
                     </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page"><router-link to="/">Home</router-link></a>
                     </li>
-                    <li class="nav-item">
+                    <li v-if="log" class="nav-item">
                         <a class="nav-link"><router-link to="/register">Register</router-link></a>
                     </li>
-                    <li class="nav-item">
+                    <li v-if="log" class="nav-item">
                         <a class="nav-link"><router-link to="/login">Login</router-link></a>
                     </li>
-                    <li class="nav-item">
+                    <li v-if="!log" class="nav-item">
                         <a class="nav-link"><router-link to="/empview">Employees</router-link></a>
                     </li>
                 </ul>
@@ -43,26 +43,31 @@
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs, watchEffect } from 'vue'
 import axios from '@/services/axios';
 import storage from '@/services/storage';
 import router from "@/router";
 import { createToaster } from "@meforma/vue-toaster";
+import { useRoute } from 'vue-router';
 
 export default {
     setup () {
         const state = reactive({
             user: storage.getItem('user')? storage.getItem('user').name : 'No user',
             log: false,
-            newVar: 'No User'
         })
+        
+        const route = useRoute()
 
         function checkUser() {
             state.user = storage.getItem('user')? storage.getItem('user').name : 'No user';
-            state.log = storage.getItem('user')? true : false
+            state.log = storage.getItem('user')? false : true;
+            console.log('checking')
         }
 
         const toaster = createToaster({ /* options */ });
+
+        checkUser()
 
         async function logout() {
             const {data: response} = await axios.post("/logout")
@@ -78,6 +83,7 @@ export default {
                 toaster.success('Logged Out Successfully!', {
                     position: 'top-right'
                 });
+                checkUser();
                 return router.push({path: '/login'});
             }
             // alert(response.message);
@@ -85,6 +91,13 @@ export default {
                 position: 'top-right'
             })
         }
+
+        watchEffect(() => {
+                if (route.path) {
+                    checkUser()
+                }
+            }
+        )
     
         return {
             ...toRefs(state),

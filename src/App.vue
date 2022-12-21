@@ -1,13 +1,13 @@
 <template>
   <navbar></navbar>
   <nav>
-    <router-link to="/">Home</router-link> |
+    <!-- <router-link to="/">Home</router-link> | -->
     <!-- <router-link v-if="!bool" to="/register">Register</router-link> | -->
-    <router-link v-if="loggedIn" to="/register">Register</router-link> |
+    <!-- <router-link v-if="loggedIn" to="/register">Register</router-link> | -->
     <!-- <router-link v-if="!bool" to="/login">Login</router-link> | -->
-    <router-link v-if="loggedIn" to="/login">Login</router-link> |
+    <!-- <router-link v-if="loggedIn" to="/login">Login</router-link> | -->
     <!-- <router-link v-if="bool" to="/empview">Employees</router-link> -->
-    <router-link v-if="!loggedIn" to="/empview">Employees</router-link>
+    <!-- <router-link v-if="!loggedIn" to="/empview">Employees</router-link> -->
   </nav>
   <router-view/>
   <footer-c></footer-c>
