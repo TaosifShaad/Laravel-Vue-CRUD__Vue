@@ -93,7 +93,7 @@ export default {
 
         function employeeLoad() {
             state.loading = true;
-            axios.get('/employees')
+            axios.get('/employeess')
             .then(
                 ({data}) => {
                     state.result = data;
@@ -103,7 +103,8 @@ export default {
                 // toaster.error(error.message, {
                 //     position: 'top-right'
                 // })
-                alertify.alert(error.message);
+                // alertify.alert(error.message);
+                alertify.alert('Error!', error.message);
             });
         }
 
