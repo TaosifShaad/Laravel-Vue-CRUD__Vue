@@ -93,7 +93,7 @@ export default {
 
         function employeeLoad() {
             state.loading = true;
-            axios.get('/employeess')
+            axios.get('/employees')
             .then(
                 ({data}) => {
                     state.result = data;
