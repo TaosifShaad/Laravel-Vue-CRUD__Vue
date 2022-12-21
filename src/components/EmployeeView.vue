@@ -59,6 +59,7 @@
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>
+        
     </div>
 </template>
 
@@ -266,7 +267,6 @@ form {
 button {
     cursor: pointer;
 }
-
 /* button:hover { */
     /* letter-spacing: 0.25em; */
 /* } */
