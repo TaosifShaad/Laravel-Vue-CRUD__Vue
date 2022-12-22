@@ -23,7 +23,7 @@
                         <a :class="theme && 'nightButton'" class="nav-link"><router-link to="/login">Login</router-link></a>
                     </li>
                     <li v-if="!log" class="nav-item">
-                        <a :class="theme && 'nightButton'" class="nav-link"><router-link to="/empview" :class="theme && 'nightButton'">Employees</router-link></a>
+                        <a :class="theme && 'nightButton'" class="nav-link"><router-link :to="{ name: 'EmployeeView', params: { Theme: theme }}" :class="theme && 'nightButton'">Employees</router-link></a>
                     </li>
                     <li class="nav-item dropdown">
                         <a :class="theme && 'nightButton'" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" @click="checkUser">

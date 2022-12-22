@@ -1,7 +1,7 @@
 <template>
   <div :class="theme && 'night'">
-    <button class="theButtonTheme" v-if="theme" @click="changeTheme()">☀️</button>
-    <button class="theButtonTheme" v-if="!theme" @click="changeTheme()">🌙</button>
+    <button class="theButtonTheme sun" v-if="theme" @click="changeTheme()">☀️</button>
+    <button class="theButtonTheme moon" v-if="!theme" @click="changeTheme()">🌙</button>
   <navbar :theme="theme"></navbar>
   <!-- <emp v-show="false" :theme="theme"></emp> -->
   <nav>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-  import { reactive, toRefs } from 'vue';
+  import { reactive, toRefs, watch } from 'vue';
   import storage from '@/services/storage';
   // import { useComposition } from '@/components/EmployeeView.vue';
   import footerC from '@/components/footerC.vue';
@@ -87,6 +87,11 @@
 }
 div:not(.night) {
   transition: background-color 0.5s;
+}
+
+.moon {
+  background-color: #2c3e50;
+  transition: background-color 2.5s;
 }
 
 #app {

@@ -59,7 +59,7 @@ export default {
             toaster.success('Welcome ' + storage.getItem('user').name, {
               position: 'bottom-right'
             });
-            return router.push({path: '/empview'});
+            return router.push({path: '/empview/false'});
           }
           // alert(response.message);
           toaster.error(response.message, {

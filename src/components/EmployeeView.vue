@@ -6,7 +6,7 @@
     </nav>
     <div class="totalContent">
         <!-- <button @click="logout">logout</button> -->
-        <form :class="bool && 'nightTable'" @submit.prevent="save">
+        <form :class="theme? 'nightTable' : no" @submit.prevent="save">
             <div class="mb-3 row">
                 <label for="name" class="col-sm-2 col-form-label">Employee Name</label>
                 <div class="col-sm-10">
@@ -64,12 +64,13 @@
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue';
+import { reactive, toRefs, watch, onMounted } from 'vue';
 import axios from '@/services/axios';
 import storage from '@/services/storage';
 import router from "@/router";
 import { createToaster } from "@meforma/vue-toaster";
 import { useComposition } from '@/App.vue';
+import { useRoute } from 'vue-router';
 
 export default {
     // props: {
@@ -89,11 +90,12 @@ export default {
                 mobile: ''
             },
             loading: true,
+            theme: true
         });
 
         const toaster = createToaster({ /* options */ });
         const { bool } = useComposition();
-        console.log(bool);
+        const route = useRoute()
 
         employeeLoad();
 
@@ -191,7 +193,7 @@ export default {
             const {data: response} = await axios.post("/logout")
             .catch(error => {
                 toaster.error(error.message, {
-                    position: 'bottom-right'
+                    position: 'top-right'
                 })
             })
 
@@ -201,7 +203,7 @@ export default {
                 storage.clearItem('token');
                 storage.clearItem('user');
                 toaster.success('Logged Out Successfully!', {
-                    position: 'top-right'
+                    position: 'bottom-right'
                 });
                 return router.push({path: '/login'});
             }
@@ -210,6 +212,21 @@ export default {
                 position: 'top-right'
             })
         }
+
+
+        onMounted(()=>{
+            console.log(route.params.theme)
+            state.theme = route.params.Theme
+        })
+
+        watch(() => {
+                if (route.path) {
+                    console.log('route--------'+route)
+                    state.theme = route.params.Theme
+                    // console.log(route.meta.data)
+                }
+            }
+        )
 
         // function register() {
         //     const page = "http://127.0.0.1/api/register";

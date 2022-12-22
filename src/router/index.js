@@ -23,7 +23,7 @@ const routes = [
     component: login
   },
   {
-    path: '/empview',
+    path: '/empview/:Theme',
     name: 'EmployeeView',
     meta: {
       hasAuth: true
@@ -56,6 +56,9 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
+
+    // name `data` whatever you want
+    // to.meta.data = 123
 })
 
 export default router
