@@ -1,5 +1,7 @@
 <template>
-  <navbar></navbar>
+  <div :class="theme && 'night'">
+    <button @click="changeTheme">theme</button>
+  <navbar :theme="theme"></navbar>
   <nav>
     <!-- <router-link to="/">Home</router-link> | -->
     <!-- <router-link v-if="!bool" to="/register">Register</router-link> | -->
@@ -10,7 +12,8 @@
     <!-- <router-link v-if="!loggedIn" to="/empview">Employees</router-link> -->
   </nav>
   <router-view/>
-  <footer-c></footer-c>
+  <footer-c :theme="theme"></footer-c>
+</div>
 </template>
 
 <script>
@@ -29,6 +32,7 @@
     setup () {
       const state = reactive({
         loggedIn: true,
+        theme: true
       })
 
       check();
@@ -39,6 +43,10 @@
       console.log(bool);
 
       // check();
+
+      function changeTheme() {
+        state.theme = !state.theme;
+      }
 
       function check() {
         console.log('-----');
@@ -51,6 +59,7 @@
     
       return {
         ...toRefs(state),
+        changeTheme,
         check,
         bool
         // bool
@@ -60,6 +69,15 @@
 </script>
 
 <style>
+
+.night {
+  background-color: rgb(31, 31, 31);
+}
+
+.day {
+  background-color: white;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

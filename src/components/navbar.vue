@@ -1,6 +1,6 @@
 <template>
     <div>
-        <nav class="navbar navbar-expand-lg">
+        <nav :class="theme && 'nightt'" class="navbar navbar-expand-lg">
             <div class="container-fluid">
                 <img alt="Vue logo" src="../assets/70a5a28358a0f80718ac4f6737f018ae.png">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,24 +9,24 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success me-4" type="submit">Search</button>
+                        <input :class="theme && 'nightInput'" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button :class="theme && 'nightButtonSearch'" class="btn btn-outline-success me-4" type="submit">Search</button>
                     </form>
                     
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page"><router-link to="/">Home</router-link></a>
+                        <a :class="theme && 'nightButton'" class="nav-link active" aria-current="page"><router-link to="/" :class="theme && 'nightButton'">Home</router-link></a>
                     </li>
                     <li v-if="log" class="nav-item">
-                        <a class="nav-link"><router-link to="/register">Register</router-link></a>
+                        <a :class="theme && 'nightButton'" class="nav-link"><router-link to="/register">Register</router-link></a>
                     </li>
                     <li v-if="log" class="nav-item">
-                        <a class="nav-link"><router-link to="/login">Login</router-link></a>
+                        <a :class="theme && 'nightButton'" class="nav-link"><router-link to="/login">Login</router-link></a>
                     </li>
                     <li v-if="!log" class="nav-item">
-                        <a class="nav-link"><router-link to="/empview">Employees</router-link></a>
+                        <a :class="theme && 'nightButton'" class="nav-link"><router-link to="/empview" :class="theme && 'nightButton'">Employees</router-link></a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" @click="checkUser">
+                        <a :class="theme && 'nightButton'" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" @click="checkUser">
                             {{user}}
                         </a>
                     <ul class="dropdown-menu">
@@ -52,6 +52,9 @@ import { createToaster } from "@meforma/vue-toaster";
 import { useRoute } from 'vue-router';
 
 export default {
+    props: {
+        theme: Boolean
+    },
     setup () {
         const state = reactive({
             user: storage.getItem('user')? storage.getItem('user').name : 'No user',
@@ -112,6 +115,23 @@ export default {
 </script>
 
 <style scoped>
+    .nightt {
+        background-color:rgb(0, 0, 0) !important;
+    }
+    .nightInput {
+        background-color: rgb(154, 154, 154) !important;
+        color: white !important;
+    }
+    .nightButton {
+        color: white !important;
+    }
+    .nightButton.router-link-exact-active {
+        color: #42b983 !important;
+    }
+    .nightButtonSearch {
+        color: whitesmoke !important;
+        border-color: white !important;
+    }
     img {
         width: 100px;
         border-radius: 15px;
