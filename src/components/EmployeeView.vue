@@ -6,7 +6,7 @@
     </nav>
     <div class="totalContent">
         <!-- <button @click="logout">logout</button> -->
-        <form @submit.prevent="save">
+        <form :class="bool && 'nightTable'" @submit.prevent="save">
             <div class="mb-3 row">
                 <label for="name" class="col-sm-2 col-form-label">Employee Name</label>
                 <div class="col-sm-10">
@@ -69,9 +69,12 @@ import axios from '@/services/axios';
 import storage from '@/services/storage';
 import router from "@/router";
 import { createToaster } from "@meforma/vue-toaster";
-// import alertify from '@/alertifyjs/alertify';
+import { useComposition } from '@/App.vue';
 
 export default {
+    // props: {
+    //     theme: Boolean
+    // },
     setup () {
         const state = reactive({
             result: {},
@@ -89,6 +92,8 @@ export default {
         });
 
         const toaster = createToaster({ /* options */ });
+        const { bool } = useComposition();
+        console.log(bool);
 
         employeeLoad();
 
@@ -124,7 +129,7 @@ export default {
             .then(
                 ({data}) => {
                     toaster.success('Data Added Successfully!', {
-                        position: 'top-right',
+                        position: 'bottom-right',
                     })
                     employeeLoad();
                     state.employeeObj.name = '';
@@ -153,7 +158,7 @@ export default {
                     state.employeeObj.mobile = '';
                     state.employeeObj.id = '';
                     toaster.info('Data Updated Successfully!', {
-                        position: 'top-right'
+                        position: 'bottom-right'
                     })
                     employeeLoad();
                 }
@@ -170,7 +175,7 @@ export default {
             .then(
                 ({data})=>{
                     toaster.error('Data Deleted Successfully!', {
-                        position: 'top-right'
+                        position: 'bottom-right'
                     })
                     employeeLoad();
                 }
@@ -186,7 +191,7 @@ export default {
             const {data: response} = await axios.post("/logout")
             .catch(error => {
                 toaster.error(error.message, {
-                    position: 'top-right'
+                    position: 'bottom-right'
                 })
             })
 
@@ -221,22 +226,27 @@ export default {
             save,
             edit,
             deleteData,
-            logout
+            logout,
+            bool
             // register
         }
     }
 }
-export const useComposition = function() {
-    const state = reactive({
-        bool: storage.getItem('user')? true : false
-    })
-    return {
-        ...toRefs(state),
-    }
-}
+// export const useComposition = function() {
+//     const state = reactive({
+//         bool: storage.getItem('user')? true : false
+//     })
+//     return {
+//         ...toRefs(state),
+//     }
+// }
 </script>
 
 <style scoped>
+.nightTable {
+    border-color: goldenrod !important;
+    color: goldenrod !important;
+}
 .table {
     /* font-family: 'Fira Sans Extra Condensed', sans-serif; */
     font-family: Avenir, Helvetica, Arial, sans-serif;

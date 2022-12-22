@@ -1,7 +1,9 @@
 <template>
   <div :class="theme && 'night'">
-    <button @click="changeTheme">theme</button>
+    <button class="theButtonTheme" v-if="theme" @click="changeTheme()">☀️</button>
+    <button class="theButtonTheme" v-if="!theme" @click="changeTheme()">🌙</button>
   <navbar :theme="theme"></navbar>
+  <!-- <emp v-show="false" :theme="theme"></emp> -->
   <nav>
     <!-- <router-link to="/">Home</router-link> | -->
     <!-- <router-link v-if="!bool" to="/register">Register</router-link> | -->
@@ -19,30 +21,27 @@
 <script>
   import { reactive, toRefs } from 'vue';
   import storage from '@/services/storage';
-  import { useComposition } from '@/components/EmployeeView.vue';
+  // import { useComposition } from '@/components/EmployeeView.vue';
   import footerC from '@/components/footerC.vue';
-  import navbar from '@/components/navbar.vue'
+  import navbar from '@/components/navbar.vue';
+  // import emp from '@/components/EmployeeView.vue';
   
   // location.reload();
   export default {
     components: {
       navbar,
-      footerC
+      footerC,
     },
     setup () {
       const state = reactive({
         loggedIn: true,
-        theme: true
+        theme: false
       })
 
       check();
 
       // const { bool } = useComposition();
       // console.log(bool);
-      const { bool } = useComposition();
-      console.log(bool);
-
-      // check();
 
       function changeTheme() {
         state.theme = !state.theme;
@@ -61,10 +60,22 @@
         ...toRefs(state),
         changeTheme,
         check,
-        bool
         // bool
       }
     }
+  }
+  export const useComposition = function() {
+      const state = reactive({
+          bool: true
+      })
+      function changeThemeTable() {
+        state.bool = !state.bool;
+        console.log('from useComp')
+      }
+      return {
+          ...toRefs(state),
+          changeThemeTable
+      }
   }
 </script>
 
@@ -72,10 +83,10 @@
 
 .night {
   background-color: rgb(31, 31, 31);
+  transition: background-color 0.5s;
 }
-
-.day {
-  background-color: white;
+div:not(.night) {
+  transition: background-color 0.5s;
 }
 
 #app {
@@ -98,4 +109,16 @@ nav a {
 nav a.router-link-exact-active {
   color: #42b983;
 }
+
+.theButtonTheme {
+  position: absolute;
+  top: 26px;
+  z-index: 1;
+  right: 46%;
+  border-radius: 50%;
+  padding: 2px 9px;
+  border-color: cornsilk;
+  font-size: 25px;
+}
+
 </style>

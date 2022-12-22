@@ -57,7 +57,7 @@ export default {
             storage.setItem('token', response.data.token);
             storage.setItem('user', response.data.user);
             toaster.success('Welcome ' + storage.getItem('user').name, {
-              position: 'top-right'
+              position: 'bottom-right'
             });
             return router.push({path: '/empview'});
           }

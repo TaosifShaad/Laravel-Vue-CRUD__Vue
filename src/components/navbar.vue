@@ -117,20 +117,37 @@ export default {
 <style scoped>
     .nightt {
         background-color:rgb(0, 0, 0) !important;
+        transition: background-color 0.5s;
     }
     .nightInput {
         background-color: rgb(154, 154, 154) !important;
         color: white !important;
+        transition: background-color 0.5s;
     }
     .nightButton {
         color: white !important;
+        transition: background-color 0.5s;
     }
     .nightButton.router-link-exact-active {
         color: #42b983 !important;
+        transition: background-color 0.5s;
     }
     .nightButtonSearch {
         color: whitesmoke !important;
         border-color: white !important;
+        transition: background-color 0.5s;
+    }
+    /* div:not(.nightt):not(.nightButtonSearch):not(.nightButton):not(.nightInput) {
+        transition: background-color 0.5s !important;
+    } */
+    nav:not(.nightt) {
+        transition: background-color 0.5s !important;
+    }
+    input:not(.nightInput) {
+        transition: background-color 0.5s !important;
+    }
+    button:not(.nightButtonSearch) {
+        transition: background-color 0.5s !important;
     }
     img {
         width: 100px;
@@ -142,7 +159,7 @@ export default {
     }
     input {
         /* margin-right: 200px; */
-        padding-right: 150px;
+        padding-right: 124px;
     }
     .navbar {
         background-color: navajowhite;

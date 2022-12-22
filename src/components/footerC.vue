@@ -5,43 +5,43 @@
                 <div class="col-6 col-md-2 mb-3">
                     <h5>Section</h5>
                     <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+                    <li class="nav-item mb-2"><a :class="theme && 'list-items'" href="#" class="nav-link p-0 text-muted">Home</a></li>
+                    <li class="nav-item mb-2"><a :class="theme && 'list-items'" href="#" class="nav-link p-0 text-muted">Features</a></li>
+                    <li class="nav-item mb-2"><a :class="theme && 'list-items'" href="#" class="nav-link p-0 text-muted">Pricing</a></li>
+                    <li class="nav-item mb-2"><a :class="theme && 'list-items'" href="#" class="nav-link p-0 text-muted">FAQs</a></li>
+                    <li class="nav-item mb-2"><a :class="theme && 'list-items'" href="#" class="nav-link p-0 text-muted">About</a></li>
                     </ul>
                 </div>
 
                 <div class="col-6 col-md-2 mb-3">
                     <h5>Section</h5>
                     <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+                    <li class="nav-item mb-2"><a :class="theme && 'list-items'" href="#" class="nav-link p-0 text-muted">Home</a></li>
+                    <li class="nav-item mb-2"><a :class="theme && 'list-items'" href="#" class="nav-link p-0 text-muted">Features</a></li>
+                    <li class="nav-item mb-2"><a :class="theme && 'list-items'" href="#" class="nav-link p-0 text-muted">Pricing</a></li>
+                    <li class="nav-item mb-2"><a :class="theme && 'list-items'" href="#" class="nav-link p-0 text-muted">FAQs</a></li>
+                    <li class="nav-item mb-2"><a :class="theme && 'list-items'" href="#" class="nav-link p-0 text-muted">About</a></li>
                     </ul>
                 </div>
 
                 <div class="col-6 col-md-2 mb-3">
                     <h5>Section</h5>
                     <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+                    <li class="nav-item mb-2"><a :class="theme && 'list-items'" href="#" class="nav-link p-0 text-muted">Home</a></li>
+                    <li class="nav-item mb-2"><a :class="theme && 'list-items'" href="#" class="nav-link p-0 text-muted">Features</a></li>
+                    <li class="nav-item mb-2"><a :class="theme && 'list-items'" href="#" class="nav-link p-0 text-muted">Pricing</a></li>
+                    <li class="nav-item mb-2"><a :class="theme && 'list-items'" href="#" class="nav-link p-0 text-muted">FAQs</a></li>
+                    <li class="nav-item mb-2"><a :class="theme && 'list-items'" href="#" class="nav-link p-0 text-muted">About</a></li>
                     </ul>
                 </div>
 
                 <div class="col-md-5 offset-md-1 mb-3">
                     <form>
-                    <h5>Subscribe to our newsletter</h5>
-                    <p>Monthly digest of what's new and exciting from us.</p>
+                    <h5 :class="theme && 'subscribe-night'">Subscribe to our newsletter</h5>
+                    <p :class="theme && 'subscribe-night'">Monthly digest of what's new and exciting from us.</p>
                     <div class="d-flex flex-column flex-sm-row w-100 gap-2">
                         <label for="newsletter1" class="visually-hidden">Email address</label>
-                        <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
+                        <input :class="theme && 'foot-input'" id="newsletter1" type="text" class="form-control" placeholder="Email address">
                         <button class="btn btn-primary" type="button">Subscribe</button>
                     </div>
                     </form>
@@ -79,9 +79,36 @@ export default {
 </script>
 
 <style scoped>
+.subscribe-night {
+    color: whitesmoke;
+    transition: color 0.5s;
+}
+h5:not(.subscribe-night), p:not(.subscribe-night) {
+    transition: color 0.5s;
+} 
+.foot-input {
+    background-color: rgb(140, 140, 140) !important;
+    color: whitesmoke !important;
+    transition: background-color 0.5s !important;
+}
+input:not(.foot-input) {
+    transition: background-color 0.5s !important;
+}
+.list-items {
+    color: cornflowerblue !important;
+    transition: color 0.5s;
+}
+a:not(.list-items) {
+    transition: color 0.5s;
+}
 .nightFooter {
     background-color: black !important;
     color: wheat !important; 
+    transition: background-color 0.5s;
+}
+
+div:not(.nightFooter) {
+    transition: background-color 0.5s;
 }
 .container {
     background-color: lightgrey;
