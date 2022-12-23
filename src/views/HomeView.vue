@@ -44,6 +44,7 @@ export default {
       data.append('file', state.file);
       axios.post('/upload', data, config)
       .then(function(res) {
+        console.log(res)
         // state.success = res.data.success;
         // state.path = res
       })
