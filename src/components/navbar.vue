@@ -86,7 +86,7 @@ export default {
                 storage.clearItem('token');
                 storage.clearItem('user');
                 toaster.success('Logged Out Successfully!', {
-                    position: 'top-right'
+                    position: 'bottom-right'
                 });
                 checkUser();
                 return router.push({path: '/login'});

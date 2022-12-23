@@ -1,11 +1,7 @@
 <template>
     <nav>
-        <!-- <router-link to="/register">Register</router-link> | 
-        <router-link to="/login">Login</router-link> -->
-        <!-- <loginComponent></loginComponent> -->
     </nav>
     <div class="totalContent">
-        <!-- <button @click="logout">logout</button> -->
         <form :class="theme == 'true' && 'nightTable'" @submit.prevent="save">
             <div class="mb-3 row">
                 <label for="name" class="col-sm-2 col-form-label">Employee Name</label>
@@ -30,12 +26,12 @@
         <div>
             <h2>Employee View</h2>
         </div>
-        <div v-if="loading" class="text-center">
-            <div class="spinner-border text-warning" role="status">
+        <div v-if="loading" class="text-center loading-div">
+            <div class="spinner-border text-warning" style="width: 5rem; height: 5rem;" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>
-        <table class="table table-secondary">
+        <table v-if="!loading" class="table table-secondary">
             <thead>
                 <tr>
                 <th scope="col">ID</th>
@@ -108,10 +104,6 @@ export default {
                     state.loading = false;
                 }
             ).catch(error => {
-                // toaster.error(error.message, {
-                //     position: 'top-right'
-                // })
-                // alertify.alert(error.message);
                 alertify.alert('Error!', error.message);
             });
         }
@@ -196,8 +188,6 @@ export default {
                     position: 'top-right'
                 })
             })
-
-            // console.log(response.success);
             
             if (response.success) {
                 storage.clearItem('token');
@@ -207,7 +197,6 @@ export default {
                 });
                 return router.push({path: '/login'});
             }
-            // alert(response.message);
             toaster.error(response.message, {
                 position: 'top-right'
             })
@@ -225,16 +214,6 @@ export default {
                 }
             }
         )
-
-        // function register() {
-        //     const page = "http://127.0.0.1/api/register";
-        //     axios.post(page, state.registerObj)
-        //     .then(
-        //         ({data}) => {
-        //             console.log(data);
-        //         }
-        //     );
-        // }
     
         return {
             ...toRefs(state),
@@ -244,18 +223,9 @@ export default {
             deleteData,
             logout,
             bool
-            // register
         }
     }
 }
-// export const useComposition = function() {
-//     const state = reactive({
-//         bool: storage.getItem('user')? true : false
-//     })
-//     return {
-//         ...toRefs(state),
-//     }
-// }
 </script>
 
 <style scoped>
@@ -293,7 +263,11 @@ form {
 button {
     cursor: pointer;
 }
-/* button:hover { */
-    /* letter-spacing: 0.25em; */
-/* } */
+.loading-div {
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+}
 </style>
