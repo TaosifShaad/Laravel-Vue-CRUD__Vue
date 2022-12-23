@@ -129,7 +129,7 @@ export default {
         transition: background-color 0.5s;
     }
     .nightButton.router-link-exact-active {
-        color: #42b983 !important;
+        color: #ebdd73 !important;
         transition: background-color 0.5s;
     }
     .nightButtonSearch {
@@ -170,5 +170,13 @@ export default {
     }
     .dropdown-menu {
         left: -63px;
+    }
+    .btn-outline-success {
+        color: darkblue;
+        border-color: darkblue;
+    }
+    .btn-outline-success:hover {
+        color: white;
+        background-color: darkblue;
     }
 </style>

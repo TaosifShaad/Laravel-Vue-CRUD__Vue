@@ -6,7 +6,7 @@
     </nav>
     <div class="totalContent">
         <!-- <button @click="logout">logout</button> -->
-        <form :class="theme? 'nightTable' : no" @submit.prevent="save">
+        <form :class="theme == 'true' && 'nightTable'" @submit.prevent="save">
             <div class="mb-3 row">
                 <label for="name" class="col-sm-2 col-form-label">Employee Name</label>
                 <div class="col-sm-10">
@@ -42,8 +42,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="employeeObj in result" :key="employeeObj.id">
-                <th scope="row">{{ employeeObj.id }}</th>
+                <tr v-for="(employeeObj, i) in result" :key="employeeObj.id">
+                <th scope="row">{{ ++i }}</th>
                 <td>{{ employeeObj.name }}</td>
                 <td>{{ employeeObj.address }}</td>
                 <td>{{ employeeObj.mobile }}</td>
@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { reactive, toRefs, watch, onMounted } from 'vue';
+import { reactive, toRefs, watchEffect, onMounted } from 'vue';
 import axios from '@/services/axios';
 import storage from '@/services/storage';
 import router from "@/router";
@@ -101,6 +101,7 @@ export default {
 
         function employeeLoad() {
             state.loading = true;
+            console.log(state.counterId)
             axios.get('/employees')
             .then(
                 ({data}) => {
@@ -219,7 +220,7 @@ export default {
             state.theme = route.params.Theme
         })
 
-        watch(() => {
+        watchEffect(() => {
                 if (route.path) {
                     console.log('route--------'+route)
                     state.theme = route.params.Theme
