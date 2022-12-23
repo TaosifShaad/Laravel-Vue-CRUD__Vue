@@ -19,7 +19,7 @@
 </template>
 
 <script>
-  import { reactive, toRefs, watch } from 'vue';
+  import { reactive, toRefs } from 'vue';
   import storage from '@/services/storage';
   // import { useComposition } from '@/components/EmployeeView.vue';
   import footerC from '@/components/footerC.vue';
@@ -34,7 +34,6 @@
     },
     setup () {
       const state = reactive({
-        loggedIn: true,
         theme: false
       })
 
@@ -47,20 +46,17 @@
         state.theme = !state.theme;
       }
 
-      function check() {
-        console.log('-----');
-        if (storage.getItem('token')) {
-          state.loggedIn = false;
-        } else {
-          state.loggedIn = true;
-        }
-      }
+      // function check() {
+      //   if (storage.getItem('token')) {
+      //     state.loggedIn = false;
+      //   } else {
+      //     state.loggedIn = true;
+      //   }
+      // }
     
       return {
         ...toRefs(state),
         changeTheme,
-        check,
-        // bool
       }
     }
   }

@@ -3,7 +3,7 @@
     <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
   <p v-if="success">Success</p>
-  <form class="imgForm" enctype="multipart/form-data" @submit="submitForm">
+  <form class="imgForm" enctype="multipart/form-data" @submit.prevent="submitForm">
       <input type="file" @change="onChange" />
       <button type="submit">Upload</button>
   </form>
@@ -35,7 +35,6 @@ export default {
     }
 
     const submitForm = (e) => {
-      e.preventDefault();
       const config = {
         headers: {
           'content-type': 'multipart/form-data'
