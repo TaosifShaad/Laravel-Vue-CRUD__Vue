@@ -37,7 +37,7 @@
         theme: false
       })
 
-      check();
+      // check();
 
       // const { bool } = useComposition();
       // console.log(bool);

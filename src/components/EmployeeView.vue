@@ -30,7 +30,11 @@
         <div>
             <h2>Employee View</h2>
         </div>
-        
+        <div v-if="loading" class="text-center">
+            <div class="spinner-border text-warning" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
         <table class="table table-secondary">
             <thead>
                 <tr>
@@ -42,7 +46,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(employeeObj, i) in result" :key="employeeObj.id">
+                <tr v-for="(employeeObj, i) in result.data" :key="employeeObj.id">
                 <th scope="row">{{ ++i }}</th>
                 <td>{{ employeeObj.name }}</td>
                 <td>{{ employeeObj.address }}</td>
@@ -54,12 +58,7 @@
                 </tr>
             </tbody>
         </table>
-        <div v-if="loading" class="text-center">
-            <div class="spinner-border text-warning" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
-        
+        <Bootstrap5Pagination align="center" :data="result" @pagination-change-page="employeeLoad"></Bootstrap5Pagination>
     </div>
 </template>
 
@@ -71,11 +70,12 @@ import router from "@/router";
 import { createToaster } from "@meforma/vue-toaster";
 import { useComposition } from '@/App.vue';
 import { useRoute } from 'vue-router';
+import {Bootstrap5Pagination} from 'laravel-vue-pagination';
 
 export default {
-    // props: {
-    //     theme: Boolean
-    // },
+    components: {
+        Bootstrap5Pagination
+    },
     setup () {
         const state = reactive({
             result: {},
@@ -99,10 +99,9 @@ export default {
 
         employeeLoad();
 
-        function employeeLoad() {
+        function employeeLoad(page = 1) {
             state.loading = true;
-            console.log(state.counterId)
-            axios.get('/employees')
+            axios.get('/employees?page=' + page)
             .then(
                 ({data}) => {
                     state.result = data;
@@ -216,13 +215,11 @@ export default {
 
 
         onMounted(()=>{
-            console.log(route.params.theme)
             state.theme = route.params.Theme
         })
 
         watchEffect(() => {
                 if (route.path) {
-                    console.log('route--------'+route)
                     state.theme = route.params.Theme
                     // console.log(route.meta.data)
                 }
@@ -241,6 +238,7 @@ export default {
     
         return {
             ...toRefs(state),
+            employeeLoad,
             save,
             edit,
             deleteData,

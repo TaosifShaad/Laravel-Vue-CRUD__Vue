@@ -68,7 +68,6 @@ export default {
             state.user = storage.getItem('user')? storage.getItem('user').name : 'No user';
             state.log = storage.getItem('user')? false : true;
             state.profile = storage.getItem('user')? storage.getItem('user').name + "'s profile " : 'No user'
-            console.log('checking')
         }
 
         const toaster = createToaster({ /* options */ });

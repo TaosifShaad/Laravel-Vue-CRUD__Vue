@@ -45,11 +45,9 @@ export default {
       axios.post('/upload', data, config)
       .then(function(res) {
         // state.success = res.data.success;
-        console.log(res)
         // state.path = res
       })
       .catch(function(error) {
-        console.log(error);
         output = error;
       })
     }
