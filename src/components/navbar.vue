@@ -17,10 +17,10 @@
                         <a :class="theme && 'nightButton'" class="nav-link active" aria-current="page"><router-link to="/" :class="theme && 'nightButton'">Home</router-link></a>
                     </li>
                     <li v-if="log" class="nav-item">
-                        <a :class="theme && 'nightButton'" class="nav-link"><router-link to="/register">Register</router-link></a>
+                        <a :class="theme && 'nightButton'" class="nav-link"><router-link :class="theme && 'nightButton'" to="/register">Register</router-link></a>
                     </li>
                     <li v-if="log" class="nav-item">
-                        <a :class="theme && 'nightButton'" class="nav-link"><router-link to="/login">Login</router-link></a>
+                        <a :class="theme && 'nightButton'" class="nav-link"><router-link :class="theme && 'nightButton'" to="/login">Login</router-link></a>
                     </li>
                     <li v-if="!log" class="nav-item">
                         <a :class="theme && 'nightButton'" class="nav-link"><router-link :to="{ name: 'EmployeeView', params: { Theme: theme }}" :class="theme && 'nightButton'">Employees</router-link></a>
@@ -125,7 +125,11 @@ export default {
     }
     .nightButton {
         color: white !important;
-        transition: background-color 0.5s;
+        transition: background-color 0.5s, color 0.5s;
+    }
+
+    a:not(.nightButton) {
+        transition: color 0.5s;
     }
     .nightButton.router-link-exact-active {
         color: #ebdd73 !important;
@@ -134,7 +138,7 @@ export default {
     .nightButtonSearch {
         color: whitesmoke !important;
         border-color: white !important;
-        transition: background-color 0.5s;
+        transition: color 0.5s, border-color 0.5s;
     }
     /* div:not(.nightt):not(.nightButtonSearch):not(.nightButton):not(.nightInput) {
         transition: background-color 0.5s !important;
@@ -146,7 +150,7 @@ export default {
         transition: background-color 0.5s !important;
     }
     button:not(.nightButtonSearch) {
-        transition: background-color 0.5s !important;
+        transition: color 0.5s, border-color 0.5s !important;
     }
     img {
         width: 100px;
@@ -163,7 +167,7 @@ export default {
     .navbar {
         background-color: navajowhite;
         background-color: lightgray;
-        /* padding: 0 20px; */
+        margin-block-start: -32px;
         padding-left: 20px;
         padding-right: 30px;
     }

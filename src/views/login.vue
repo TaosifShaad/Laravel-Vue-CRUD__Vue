@@ -1,9 +1,9 @@
 <template>
   <div class="login">
-    <form @submit.prevent="login" style="border:1px solid #ccc">
+    <form class="night-table" @submit.prevent="login" style="border:1px solid">
       <div class="container">
-        <h1>Login</h1>
-        <p>Sign in to your account.</p>
+        <h1 style="color: gray">Login</h1>
+        <p style="color: gray">Sign in to your account.</p>
         <hr>
 
         <!-- <label for="email"><b>Email</b></label> -->
@@ -79,6 +79,10 @@ export default {
 body {font-family: Arial, Helvetica, sans-serif;}
 * {box-sizing: border-box}
 
+.night-table {
+    border-color: rgb(158, 155, 147) !important;
+    color: goldenrod !important;
+}
 /* Full-width input fields */
 input[type=text], input[type=password] {
   width: 100%;

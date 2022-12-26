@@ -1,9 +1,9 @@
 <template>
     <div class="register">
-        <form @submit.prevent="register" style="border:1px solid #ccc">
+        <form class="night-table" @submit.prevent="register" style="border:1px solid #ccc">
             <div class="container">
-                <h1>Sign Up</h1>
-                <p>Please fill in this form to create an account.</p>
+                <h1 style="color: gray">Sign Up</h1>
+                <p style="color: grey">Please fill in this form to create an account.</p>
                 <hr>
 
                 <!-- <label for="name"><b>Name</b></label> -->
@@ -70,6 +70,10 @@ export default {
 body {font-family: Arial, Helvetica, sans-serif;}
 * {box-sizing: border-box}
 
+.night-table {
+    border-color: rgb(156, 152, 144) !important;
+    color: goldenrod !important;
+}
 /* Full-width input fields */
 input[type=text], input[type=password] {
   width: 100%;

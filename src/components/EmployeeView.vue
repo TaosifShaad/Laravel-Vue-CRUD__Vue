@@ -2,7 +2,7 @@
     <nav>
     </nav>
     <div class="totalContent">
-        <form :class="theme == 'true' && 'nightTable'" @submit.prevent="save">
+        <form class="night-table" @submit.prevent="save">
             <div class="mb-3 row">
                 <label for="name" class="col-sm-2 col-form-label">Employee Name</label>
                 <div class="col-sm-10">
@@ -24,7 +24,7 @@
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
         <div>
-            <h2>Employee View</h2>
+            <h2 style="color: grey">Employee View</h2>
         </div>
         <div v-if="loading" class="text-center loading-div">
             <div class="spinner-border text-warning" style="width: 5rem; height: 5rem;" role="status">
@@ -202,18 +202,20 @@ export default {
             })
         }
 
+        console.log(route.params.Theme);
 
-        onMounted(()=>{
-            state.theme = route.params.Theme
-        })
 
-        watchEffect(() => {
-                if (route.path) {
-                    state.theme = route.params.Theme
-                    // console.log(route.meta.data)
-                }
-            }
-        )
+        // onMounted(()=>{
+        //     state.theme = route.params.Theme
+        // })
+
+        // watchEffect(() => {
+        //         if (route.path) {
+        //             state.theme = route.params.Theme
+        //             // console.log(route.meta.data)
+        //         }
+        //     }
+        // )
     
         return {
             ...toRefs(state),
@@ -229,7 +231,7 @@ export default {
 </script>
 
 <style scoped>
-.nightTable {
+.night-table {
     border-color: goldenrod !important;
     color: goldenrod !important;
 }

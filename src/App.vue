@@ -1,7 +1,7 @@
 <template>
   <div :class="theme && 'night'">
-    <button class="theButtonTheme sun" v-if="theme" @click="changeTheme()">☀️</button>
-    <button class="theButtonTheme moon" v-if="!theme" @click="changeTheme()">🌙</button>
+    <!-- <button class="theButtonTheme sun" v-if="theme" @click="changeTheme()"></button> -->
+    <button :class="theme? 'night-button': 'sun'" class="theButtonTheme" @click="changeTheme()"></button>
   <navbar :theme="theme"></navbar>
   <!-- <emp v-show="false" :theme="theme"></emp> -->
   <nav>
@@ -34,7 +34,7 @@
     },
     setup () {
       const state = reactive({
-        theme: false
+        theme: false,
       })
 
       // check();
@@ -85,11 +85,6 @@ div:not(.night) {
   transition: background-color 0.5s;
 }
 
-.moon {
-  background-color: #2c3e50;
-  transition: background-color 2.5s;
-}
-
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -111,7 +106,7 @@ nav a.router-link-exact-active {
   color: dodgerblue;
 }
 
-.theButtonTheme {
+/* .theButtonTheme {
   position: absolute;
   top: 26px;
   z-index: 1;
@@ -120,6 +115,44 @@ nav a.router-link-exact-active {
   padding: 2px 9px;
   border-color: cornsilk;
   font-size: 25px;
+} */
+
+.theButtonTheme{ 
+  position: relative;
+  top: 32px;
+  right: -20px;
+  z-index: 1;
+  width: 60px;
+  height: 30px;
+  border-radius: 30px;
+}
+
+.theButtonTheme::before {
+  position: absolute;
+  content: '☀️';
+  height: 50px;
+  width: 50px;
+  font-size: 23px;
+  top: -4px;
+  left: -8px;
+  transition: 0.5s;
+}
+
+.night-button::before {
+  content: '🌙';
+  transform: translateX(23px);
+}
+
+.sun {
+  background-color: #ffffed;
+}
+
+.night-button {
+  background-color: rgb(0, 0, 72);
+}
+
+button:not(.sun), button:not(.night-button) {
+  transition: background-color 0.5s;
 }
 
 </style>
