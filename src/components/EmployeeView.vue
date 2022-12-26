@@ -43,7 +43,7 @@
             </thead>
             <tbody>
                 <tr v-for="(employeeObj, i) in result.data" :key="employeeObj.id">
-                <th scope="row">{{ ++i }}</th>
+                <th scope="row">{{ (page-1)*8 + (++i) }}</th>
                 <td>{{ employeeObj.name }}</td>
                 <td>{{ employeeObj.address }}</td>
                 <td>{{ employeeObj.mobile }}</td>
@@ -86,7 +86,8 @@ export default {
                 mobile: ''
             },
             loading: true,
-            theme: true
+            theme: true,
+            page: ''
         });
 
         const toaster = createToaster({ /* options */ });
@@ -101,6 +102,7 @@ export default {
             .then(
                 ({data}) => {
                     state.result = data;
+                    state.page = page;
                     state.loading = false;
                 }
             ).catch(error => {
@@ -154,7 +156,7 @@ export default {
                     toaster.info('Data Updated Successfully!', {
                         position: 'bottom-right'
                     })
-                    employeeLoad();
+                    employeeLoad(state.page);
                 }
             ).catch(error => {
                 toaster.error(error.message, {
@@ -171,7 +173,7 @@ export default {
                     toaster.error('Data Deleted Successfully!', {
                         position: 'bottom-right'
                     })
-                    employeeLoad();
+                    employeeLoad(state.page);
                 }
             ).catch(error => {
                 toaster.error(error.message, {
