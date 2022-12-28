@@ -2,36 +2,36 @@
     <nav>
     </nav>
     <div class="totalContent">
-        <form class="night-table" @submit.prevent="save">
+        <form :class="themeToggle.themeBtn && 'night-table'" @submit.prevent="save">
             <div class="mb-3 row">
                 <label for="name" class="col-sm-2 col-form-label">Employee Name</label>
                 <div class="col-sm-10">
-                    <input id="name" v-model="employeeObj.name" type="text" class="form-control" placeholder="Enter Name">
+                    <input :class="themeToggle.themeBtn && 'night-input-field'" id="name" v-model="state.employeeObj.name" type="text" class="form-control" placeholder="Enter Name">
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="street-address" class="col-sm-2 col-form-label">Employee Address</label>
                 <div class="col-sm-10">
-                    <input id="street-address" v-model="employeeObj.address" type="text" class="form-control" placeholder="Enter Address">
+                    <input :class="themeToggle.themeBtn && 'night-input-field'" id="street-address" v-model="state.employeeObj.address" type="text" class="form-control" placeholder="Enter Address">
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="staticEmail" class="col-sm-2 col-form-label">Employee Contact</label>
                 <div class="col-sm-10">
-                    <input v-model="employeeObj.mobile" type="tel" class="form-control" placeholder="Enter Contact No.">
+                    <input :class="themeToggle.themeBtn && 'night-input-field'" v-model="state.employeeObj.mobile" type="tel" class="form-control" placeholder="Enter Contact No.">
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
         <div>
-            <h2 style="color: grey">Employee View</h2>
+            <h2 :class="themeToggle.themeBtn && 'table-heading'" style="color: grey">Employee View</h2>
         </div>
-        <div v-if="loading" class="text-center loading-div">
-            <div class="spinner-border text-warning" style="width: 5rem; height: 5rem;" role="status">
+        <div v-if="state.loading" class="text-center loading-div">
+            <div class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>
-        <table v-if="!loading" class="table table-secondary">
+        <table v-if="!state.loading" class="table" :class="themeToggle.themeBtn? 'night-table-bg' : 'day-table-bg'">
             <thead>
                 <tr>
                 <th scope="col">ID</th>
@@ -42,8 +42,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(employeeObj, i) in result.data" :key="employeeObj.id">
-                <th scope="row">{{ (page-1)*8 + (++i) }}</th>
+                <tr v-for="(employeeObj, i) in state.result.data" :key="employeeObj.id">
+                <th scope="row">{{ (state.page-1)*8 + (++i) }}</th>
                 <td>{{ employeeObj.name }}</td>
                 <td>{{ employeeObj.address }}</td>
                 <td>{{ employeeObj.mobile }}</td>
@@ -54,25 +54,21 @@
                 </tr>
             </tbody>
         </table>
-        <Bootstrap5Pagination align="center" :data="result" @pagination-change-page="employeeLoad"></Bootstrap5Pagination>
+        <Bootstrap5Pagination class="page-num" align="center" :data="state.result" @pagination-change-page="employeeLoad"></Bootstrap5Pagination>
     </div>
 </template>
 
-<script>
+<script setup>
 import { reactive, toRefs, watchEffect, onMounted } from 'vue';
 import axios from '@/services/axios';
 import storage from '@/services/storage';
 import router from "@/router";
 import { createToaster } from "@meforma/vue-toaster";
-import { useComposition } from '@/App.vue';
+// import { useComposition } from '@/App.vue';
 import { useRoute } from 'vue-router';
-import {Bootstrap5Pagination} from 'laravel-vue-pagination';
+import { Bootstrap5Pagination } from 'laravel-vue-pagination';
+import { themeToggle } from '@/stores/themeStore';
 
-export default {
-    components: {
-        Bootstrap5Pagination
-    },
-    setup () {
         const state = reactive({
             result: {},
             loginObj: {
@@ -91,7 +87,7 @@ export default {
         });
 
         const toaster = createToaster({ /* options */ });
-        const { bool } = useComposition();
+        // const { bool } = useComposition();
         const route = useRoute()
 
         employeeLoad();
@@ -219,23 +215,56 @@ export default {
         //     }
         // )
     
-        return {
-            ...toRefs(state),
-            employeeLoad,
-            save,
-            edit,
-            deleteData,
-            logout,
-            bool
-        }
-    }
-}
+
 </script>
 
 <style scoped>
 .night-table {
     border-color: goldenrod !important;
     color: goldenrod !important;
+    transition: border-color 0.5s, color 0.5s;
+}
+form:not(.night-table) {
+    transition: 0.5s;
+}
+.night-input-field {
+    background-color: grey !important;
+    color: white !important;
+    transition: background-color 0.5s, color 0.5s;
+}
+input:not(.night-input-field) {
+    transition: 0.5s;
+}
+.night-input-field::placeholder {
+    color: white !important;
+    transition: color 0.5s;
+}
+
+input::placeholder {
+    transition: color 0.5s;
+}
+
+.table-heading {
+    color: wheat !important;
+    transition: color 0.5s;
+}
+h2:not(.table-heading) {
+    transition: 0.5s;
+}
+.day-table-bg {
+    background-color: lightgrey !important;
+    transition: background-color 0.5s, color 0.5s;
+}
+.night-table-bg {
+    background-color: black !important;
+    color: white !important;
+    transition: background-color 0.5s, color 0.5s;
+}
+.page-num {
+    background-color: grey !important;
+}
+a.page-link {
+    background-color: #cbcbcb !important;
 }
 .table {
     /* font-family: 'Fira Sans Extra Condensed', sans-serif; */

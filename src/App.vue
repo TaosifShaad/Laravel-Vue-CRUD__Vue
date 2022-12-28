@@ -1,10 +1,10 @@
 <template>
-  <div :class="theme && 'night'">
+  <div :class="state.theme && 'night'">
     <!-- <button class="theButtonTheme sun" v-if="theme" @click="changeTheme()"></button> -->
-    <button :class="theme? 'night-button': 'sun'" class="theButtonTheme" @click="changeTheme()"></button>
-  <navbar :theme="theme"></navbar>
+    <button :class="state.theme? 'night-button': 'sun'" class="theButtonTheme" @click="changeTheme(); themeToggle.toggle()"></button>
+    <navbar :theme="state.theme"></navbar>
   <!-- <emp v-show="false" :theme="theme"></emp> -->
-  <nav>
+    <nav>
     <!-- <router-link to="/">Home</router-link> | -->
     <!-- <router-link v-if="!bool" to="/register">Register</router-link> | -->
     <!-- <router-link v-if="loggedIn" to="/register">Register</router-link> | -->
@@ -12,27 +12,22 @@
     <!-- <router-link v-if="loggedIn" to="/login">Login</router-link> | -->
     <!-- <router-link v-if="bool" to="/empview">Employees</router-link> -->
     <!-- <router-link v-if="!loggedIn" to="/empview">Employees</router-link> -->
-  </nav>
+    </nav>
   <router-view/>
-  <footer-c :theme="theme"></footer-c>
+  <footer-c :theme="state.theme"></footer-c>
 </div>
 </template>
 
-<script>
+<script setup>
   import { reactive, toRefs } from 'vue';
   import storage from '@/services/storage';
   // import { useComposition } from '@/components/EmployeeView.vue';
   import footerC from '@/components/footerC.vue';
   import navbar from '@/components/navbar.vue';
+  import { themeToggle } from './stores/themeStore';
   // import emp from '@/components/EmployeeView.vue';
   
   // location.reload();
-  export default {
-    components: {
-      navbar,
-      footerC,
-    },
-    setup () {
       const state = reactive({
         theme: false,
       })
@@ -54,25 +49,19 @@
       //   }
       // }
     
-      return {
-        ...toRefs(state),
-        changeTheme,
-      }
-    }
-  }
-  export const useComposition = function() {
-      const state = reactive({
-          bool: true
-      })
-      function changeThemeTable() {
-        state.bool = !state.bool;
-        console.log('from useComp')
-      }
-      return {
-          ...toRefs(state),
-          changeThemeTable
-      }
-  }
+  // export const useComposition = function() {
+  //     const state = reactive({
+  //         bool: true
+  //     })
+  //     function changeThemeTable() {
+  //       state.bool = !state.bool;
+  //       console.log('from useComp')
+  //     }
+  //     return {
+  //         ...toRefs(state),
+  //         changeThemeTable
+  //     }
+  // }
 </script>
 
 <style>

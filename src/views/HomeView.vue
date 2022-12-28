@@ -8,6 +8,7 @@
       <button type="submit">Upload</button>
   </form>
   <img :src="path" alt="">
+  
 </template>
 
 <script>
