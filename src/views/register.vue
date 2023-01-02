@@ -7,23 +7,27 @@
         <hr>
 
         <!-- <label for="name"><b>Name</b></label> -->
-        <input :class="theme.themeBtn && 'night-input-field'" v-model="state.registerObj.name" type="text" placeholder="Enter Name" name="name" required>
+        <input :class="theme.themeBtn && 'night-input-field'" v-model="state.registerObj.name" type="text"
+          placeholder="Enter Name" name="name" required>
 
         <!-- <label for="email"><b>Email</b></label> -->
-        <input :class="theme.themeBtn && 'night-input-field'" v-model="state.registerObj.email" type="text" placeholder="Enter Email" name="email" required>
+        <input :class="theme.themeBtn && 'night-input-field'" v-model="state.registerObj.email" type="text"
+          placeholder="Enter Email" name="email" required>
 
         <!-- <label for="psw"><b>Password</b></label> -->
-        <input :class="theme.themeBtn && 'night-input-field'" v-model="state.registerObj.password" type="password" placeholder="Enter Password" name="psw" required>
+        <input :class="theme.themeBtn && 'night-input-field'" v-model="state.registerObj.password" type="password"
+          placeholder="Enter Password" name="psw" required>
 
         <!-- <label for="psw-repeat"><b>Repeat Password</b></label> -->
-        <input :class="theme.themeBtn && 'night-input-field'" v-model="state.registerObj.c_password" type="password" placeholder="Repeat Password" name="psw-repeat"
-          required>
+        <input :class="theme.themeBtn && 'night-input-field'" v-model="state.registerObj.c_password" type="password"
+          placeholder="Repeat Password" name="psw-repeat" required>
 
         <label>
           <input type="checkbox" checked="true" name="remember" style="margin-bottom:15px"> Remember me
         </label>
 
-        <p style="color: grey">By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
+        <p style="color: grey">By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms &
+            Privacy</a>.</p>
 
         <div class="clearfix">
           <button type="button" class="cancelbtn">Cancel</button>
@@ -38,6 +42,8 @@
 import { reactive } from 'vue'
 import axios from 'axios';
 import { themeToggle } from '@/stores/themeStore';
+import router from '@/router';
+import { createToaster } from "@meforma/vue-toaster";
 
 const theme = themeToggle();
 const state = reactive({
@@ -49,14 +55,23 @@ const state = reactive({
   }
 });
 
+const toaster = createToaster({});
+
 function register() {
   const page = "http://127.0.0.1/api/register";
   axios.post(page, state.registerObj)
     .then(
       ({ data }) => {
-        console.log(data);
+        toaster.success('Registered Successfully!', {
+          position: 'bottom-right',
+        });
+        router.push({path: '/login'});
       }
-    );
+    ).catch(error => {
+      toaster.error(error.message, {
+        position: 'top-right'
+      })
+    });
 }
 </script>
   
