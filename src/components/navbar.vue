@@ -30,7 +30,8 @@
                             {{user}}
                         </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item">{{profile}}</a></li>
+                        <!-- <li><a class="dropdown-item">{{profile}}</a></li> -->
+                        <li><a class="dropdown-item"><router-link to="/profile">{{profile}}</router-link></a></li>
                         <li><a class="dropdown-item">Billing</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a v-if="!log" class="dropdown-item" @click="logout">logout</a></li>

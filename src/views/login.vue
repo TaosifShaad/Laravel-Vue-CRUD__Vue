@@ -52,6 +52,8 @@ async function login() {
         position: 'top-right',
       })
     })
+  
+  console.log(response);
 
   if (response.success) {
     storage.setItem('token', response.data.token);

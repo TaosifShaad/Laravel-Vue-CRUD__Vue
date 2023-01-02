@@ -4,7 +4,7 @@ import login from '../views/login.vue';
 import register from '../views/register.vue';
 import storage from '@/services/storage';
 import { createToaster } from "@meforma/vue-toaster";
-
+import UserProfile from "@/views/UserProfile.vue";
 
 const routes = [
   {
@@ -32,6 +32,14 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '@/components/EmployeeView.vue')
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: UserProfile,
+    meta: {
+      hasAuth: true
+    }
   }
 ];
 
