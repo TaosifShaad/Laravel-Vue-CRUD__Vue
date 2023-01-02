@@ -2,36 +2,36 @@
     <nav>
     </nav>
     <div class="totalContent">
-        <form :class="themeToggle.themeBtn && 'night-table'" @submit.prevent="save">
+        <form :class="theme.themeBtn && 'night-table'" @submit.prevent="save">
             <div class="mb-3 row">
                 <label for="name" class="col-sm-2 col-form-label">Employee Name</label>
                 <div class="col-sm-10">
-                    <input :class="themeToggle.themeBtn && 'night-input-field'" id="name" v-model="state.employeeObj.name" type="text" class="form-control" placeholder="Enter Name">
+                    <input :class="theme.themeBtn && 'night-input-field'" id="name" v-model="state.employeeObj.name" type="text" class="form-control" placeholder="Enter Name">
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="street-address" class="col-sm-2 col-form-label">Employee Address</label>
                 <div class="col-sm-10">
-                    <input :class="themeToggle.themeBtn && 'night-input-field'" id="street-address" v-model="state.employeeObj.address" type="text" class="form-control" placeholder="Enter Address">
+                    <input :class="theme.themeBtn && 'night-input-field'" id="street-address" v-model="state.employeeObj.address" type="text" class="form-control" placeholder="Enter Address">
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="staticEmail" class="col-sm-2 col-form-label">Employee Contact</label>
                 <div class="col-sm-10">
-                    <input :class="themeToggle.themeBtn && 'night-input-field'" v-model="state.employeeObj.mobile" type="tel" class="form-control" placeholder="Enter Contact No.">
+                    <input :class="theme.themeBtn && 'night-input-field'" v-model="state.employeeObj.mobile" type="tel" class="form-control" placeholder="Enter Contact No.">
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
         <div>
-            <h2 :class="themeToggle.themeBtn && 'table-heading'" style="color: grey">Employee View</h2>
+            <h2 :class="theme.themeBtn && 'table-heading'" style="color: grey">Employee View</h2>
         </div>
         <div v-if="state.loading" class="text-center loading-div">
             <div class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>
-        <table v-if="!state.loading" class="table" :class="themeToggle.themeBtn? 'night-table-bg' : 'day-table-bg'">
+        <table v-if="!state.loading" class="table" :class="theme.themeBtn? 'night-table-bg' : 'day-table-bg'">
             <thead>
                 <tr>
                 <th scope="col">ID</th>
@@ -48,7 +48,7 @@
                 <td>{{ employeeObj.address }}</td>
                 <td>{{ employeeObj.mobile }}</td>
                 <td>
-                    <button @click="edit(employeeObj)" type="button" class="btn btn-dark">edit</button>
+                    <button @click="edit(employeeObj)" type="button" class="btn" :class="theme.themeBtn? 'btn-warning' : 'btn-dark'">edit</button>
                     <button @click="deleteData(employeeObj)" type="button" class="btn btn-danger">delete</button>
                 </td>
                 </tr>
@@ -68,7 +68,6 @@ import { createToaster } from "@meforma/vue-toaster";
 import { useRoute } from 'vue-router';
 import { Bootstrap5Pagination } from 'laravel-vue-pagination';
 import { themeToggle } from '@/stores/themeStore';
-
         const state = reactive({
             result: {},
             loginObj: {
@@ -82,13 +81,14 @@ import { themeToggle } from '@/stores/themeStore';
                 mobile: ''
             },
             loading: true,
-            theme: true,
             page: ''
         });
 
         const toaster = createToaster({ /* options */ });
+        const route = useRoute();
+        let theme = themeToggle();
         // const { bool } = useComposition();
-        const route = useRoute()
+
 
         employeeLoad();
 
@@ -290,7 +290,7 @@ form {
     padding-bottom: 19px;
     border-radius: 50px;
 }
-.btn-dark {
+.btn-dark, .btn-warning {
     margin-inline-end: 16px;
 }
 button {

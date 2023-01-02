@@ -1,23 +1,24 @@
 <template>
   <div class="login">
-    <form class="night-table" @submit.prevent="login" style="border:1px solid">
+    <form :class="theme.themeBtn && 'night-table'" @submit.prevent="login" style="border:1px solid">
       <div class="container">
-        <h1 style="color: gray">Login</h1>
-        <p style="color: gray">Sign in to your account.</p>
-        <hr>
+        <h1>Login</h1>
+        <p>Sign in to your account.</p>
+        <hr style="border-color: grey">
 
         <!-- <label for="email"><b>Email</b></label> -->
-        <input v-model="postObj.email" type="text" placeholder="Enter Email" name="email" required>
+        <input :class="theme.themeBtn && 'night-input-field'" v-model="state.postObj.email" type="text" placeholder="Enter Email" name="email" required>
 
         <!-- <label for="psw"><b>Password</b></label> -->
-        <input v-model="postObj.password" type="password" placeholder="Enter Password" name="psw" required>
-        
+        <input :class="theme.themeBtn && 'night-input-field'" v-model="state.postObj.password" type="password" placeholder="Enter Password" name="psw" required>
+
         <label>
           <input type="checkbox" checked="true" name="remember" style="margin-bottom:15px"> Remember me
         </label>
-        
+
         <div class="clearfix">
-          <button type="button" class="cancelbtn">Cancel {{ $route.path }}</button>
+          <!-- <button type="button" class="cancelbtn">Cancel {{ $route.path }}</button> -->
+          <button type="button" class="cancelbtn">Cancel</button>
           <button type="submit" class="signupbtn">Sign in</button>
         </div>
       </div>
@@ -25,66 +26,89 @@
   </div>
 </template>
 
-<script>
-import { reactive, toRefs, watchEffect } from 'vue';
+<script setup>
+import { reactive } from 'vue';
 import router from "@/router"
-import axios from '@/services/axios';  
+import axios from '@/services/axios';
 import storage from '@/services/storage';
 import { createToaster } from "@meforma/vue-toaster";
+import { themeToggle } from '@/stores/themeStore';
 
-export default {
-    setup () {
-        const state = reactive({
-          postObj: {
-            email: '',
-            password: '',
-          },
-          userData: ''
-        });
+const state = reactive({
+  postObj: {
+    email: '',
+    password: '',
+  },
+  userData: ''
+});
 
-        const toaster = createToaster({ /* options */ });
+const toaster = createToaster({ /* options */ });
+const theme = themeToggle();
 
-        async function login() {
-          const {data: response} = await axios.post("/login", state.postObj)
-          .catch(error => {
-            // alert(error.message)
-            toaster.error(error.message, {
-              position: 'top-right',
-            })
-          })
-          
-          if (response.success) {
-            storage.setItem('token', response.data.token);
-            storage.setItem('user', response.data.user);
-            toaster.success('Welcome ' + storage.getItem('user').name, {
-              position: 'bottom-right'
-            });
-            return router.push({path: '/empview/false'});
-          }
-          // alert(response.message);
-          toaster.error(response.message, {
-              position: 'top-right',
-          })
-        }
-        
-        return {
-            ...toRefs(state),
-            login
-        }
-    }
+async function login() {
+  const { data: response } = await axios.post("/login", state.postObj)
+    .catch(error => {
+      toaster.error(error.message, {
+        position: 'top-right',
+      })
+    })
+
+  if (response.success) {
+    storage.setItem('token', response.data.token);
+    storage.setItem('user', response.data.user);
+    toaster.success('Welcome ' + storage.getItem('user').name, {
+      position: 'bottom-right'
+    });
+    return router.push({ path: '/empview/false' });
+  }
+  // alert(response.message);
+  toaster.error(response.message, {
+    position: 'top-right',
+  })
 }
 </script>
 
 <style scoped>
-body {font-family: Arial, Helvetica, sans-serif;}
-* {box-sizing: border-box}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
 
 .night-table {
-    border-color: rgb(158, 155, 147) !important;
-    color: goldenrod !important;
+  border-color: rgb(158, 155, 147) !important;
+  color: goldenrod !important;
+  transition: border-color 0.5s, color 0.5s;
 }
+
+form:not(.night-table) {
+  transition: 0.5s;
+}
+
+.night-input-field {
+  color: white;
+  background-color: darkgray !important;
+  transition: background-color 0.5s;
+}
+
+input::placeholder {
+  transition: 0.5s;
+}
+
+.night-input-field::placeholder {
+  color: white;
+  transition: 0.5s;
+}
+
+input:not(.night-input-field) {
+  transition: 0.5s;
+}
+
 /* Full-width input fields */
-input[type=text], input[type=password] {
+input[type=text],
+input[type=password] {
   width: 100%;
   padding: 15px;
   margin: 5px 0 22px 0;
@@ -97,7 +121,8 @@ input[type=text], input[type=password] {
   background-color: #1999ff;
 }
 
-input[type=text]:focus, input[type=password]:focus {
+input[type=text]:focus,
+input[type=password]:focus {
   background-color: #ddd;
   outline: none;
 }
@@ -120,7 +145,7 @@ button {
 }
 
 button:hover {
-  opacity:1;
+  opacity: 1;
 }
 
 /* Extra styles for the cancel button */
@@ -130,24 +155,25 @@ button:hover {
 }
 
 /* Float cancel and signup buttons and add an equal width */
-.cancelbtn, .signupbtn {
+.cancelbtn,
+.signupbtn {
   float: left;
   width: 50%;
 }
 
 /* Add padding to container elements */
 .container {
-    padding: 57px;
-    max-width: 1000px;
-    margin: auto;
-    border: 1px solid;
-    border-radius: 26px;
-    margin-top: 50px;
-    /* margin-bottom: 50px; */
+  padding: 57px;
+  max-width: 1000px;
+  margin: auto;
+  border: 1px solid;
+  border-radius: 26px;
+  margin-top: 50px;
+  /* margin-bottom: 50px; */
 }
 
 form {
-    height: 64vh !important;
+  height: 64vh !important;
 }
 
 /* Clear floats */
@@ -159,8 +185,10 @@ form {
 
 /* Change styles for cancel button and signup button on extra small screens */
 @media screen and (max-width: 300px) {
-  .cancelbtn, .signupbtn {
-      width: 100%;
+
+  .cancelbtn,
+  .signupbtn {
+    width: 100%;
   }
 }
 </style>

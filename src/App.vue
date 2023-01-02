@@ -1,21 +1,11 @@
 <template>
   <div :class="state.theme && 'night'">
     <!-- <button class="theButtonTheme sun" v-if="theme" @click="changeTheme()"></button> -->
-    <button :class="state.theme? 'night-button': 'sun'" class="theButtonTheme" @click="changeTheme(); themeToggle.toggle()"></button>
+    <button :class="state.theme? 'night-button': 'sun'" class="theButtonTheme" @click="changeTheme(); togglingTheme.toggle()"></button>
     <navbar :theme="state.theme"></navbar>
-  <!-- <emp v-show="false" :theme="theme"></emp> -->
-    <nav>
-    <!-- <router-link to="/">Home</router-link> | -->
-    <!-- <router-link v-if="!bool" to="/register">Register</router-link> | -->
-    <!-- <router-link v-if="loggedIn" to="/register">Register</router-link> | -->
-    <!-- <router-link v-if="!bool" to="/login">Login</router-link> | -->
-    <!-- <router-link v-if="loggedIn" to="/login">Login</router-link> | -->
-    <!-- <router-link v-if="bool" to="/empview">Employees</router-link> -->
-    <!-- <router-link v-if="!loggedIn" to="/empview">Employees</router-link> -->
-    </nav>
-  <router-view/>
-  <footer-c :theme="state.theme"></footer-c>
-</div>
+    <router-view/>
+    <footer-c :theme="state.theme"></footer-c>
+  </div>
 </template>
 
 <script setup>
@@ -27,6 +17,7 @@
   import { themeToggle } from './stores/themeStore';
   // import emp from '@/components/EmployeeView.vue';
   
+  const togglingTheme = themeToggle();
   // location.reload();
       const state = reactive({
         theme: false,
