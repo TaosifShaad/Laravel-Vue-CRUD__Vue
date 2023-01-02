@@ -15,6 +15,7 @@ import storage from '@/services/storage';
 import { reactive } from 'vue';
 import axios from '@/services/axios';
 import router from '@/router';
+import { createToaster } from "@meforma/vue-toaster";
 
 const state = reactive({
     user: storage.getItem('user'),
@@ -22,6 +23,8 @@ const state = reactive({
         key: storage.getItem('user').id
     }
 });
+
+const toaster = createToaster({ /* options */ });
 
 function deleteAcc() {
     axios.post("/delete", state.id)

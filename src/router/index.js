@@ -5,6 +5,7 @@ import register from '../views/register.vue';
 import storage from '@/services/storage';
 import { createToaster } from "@meforma/vue-toaster";
 import UserProfile from "@/views/UserProfile.vue";
+import routerlocal from "@/router";
 
 const routes = [
   {
@@ -63,6 +64,11 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     next();
+  }
+  if (to.path === '/login' || to.path === '/register') {
+    if (storage.getItem('user')) {
+      routerlocal.push({ path:'/empview/false'});
+    }
   }
 
     // name `data` whatever you want
