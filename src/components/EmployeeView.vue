@@ -177,7 +177,6 @@ function deleteData(employeeObj) {
         confirmButtonText: 'yes',
         denyButtonText: `no`,
     }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
             const page = "/delete/" + employeeObj.id;
             axios.delete(page)
@@ -201,7 +200,6 @@ function deleteData(employeeObj) {
 }
 
 async function logout() {
-    // toastr.info('Are you the 6 fingered man?')
     const { data: response } = await axios.post("/logout")
         .catch(error => {
             toaster.error(error.message, {

@@ -64,6 +64,9 @@ export default {
 </script>
 
 <style scoped>
+.home {
+  margin-block-start: 80px;
+}
 .imgForm {
     margin-block-start: 8%;
 }

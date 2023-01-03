@@ -94,6 +94,13 @@ h5:not(.subscribe-night), p:not(.subscribe-night) {
 input:not(.foot-input) {
     transition: background-color 0.5s !important;
 }
+.foot-input::placeholder {
+    color: white !important;
+    transition: 0.5s;
+}
+input::placeholder {
+    transition: 0.5s;
+}
 .list-items {
     color: cornflowerblue !important;
     transition: color 0.5s;
