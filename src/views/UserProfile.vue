@@ -5,7 +5,7 @@
         <h3>Account created at: {{ new Date(state.user.created_at).toLocaleString('en-GB', { timeZone: 'UTC' }) }}</h3>
         <form @submit.prevent="deleteAcc" action="">
             <input name="id" :value="state.id.key" type="hidden" />
-            <div>
+            <div class="two-btn">
                 <modal>
                     <template #input>
                         <input v-model="state.newProfile.name" type="text" placeholder="name" name="name"> <br>
@@ -129,5 +129,15 @@ function updateProfile() {
 
 div:not(.night-profile) {
     transition: 0.5s;
+}
+
+.two-btn {
+    display: flex;
+    gap: 18px;
+}
+input {
+    width: 70%;
+    margin-top: 6px;
+    margin-left: 63px;
 }
 </style>
